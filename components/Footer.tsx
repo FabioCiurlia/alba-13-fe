@@ -21,18 +21,6 @@ export const Footer: React.FC<{ activeClub: ClubType }> = ({ activeClub }) => {
                 <a href="mailto:gp.alba13taurisano@gmail.com" className="hover:text-white transition-colors">Email</a>
               </div>
             </div>
-
-
-            <iframe
-              allowTransparency={true}
-              frameBorder='0'
-              height='454'
-              scrolling='no'
-              src='https://www.strava.com/clubs/1688974/latest-rides/2faccae10cb3563a10317963fdeb9f523198dc92?show_rides=true'
-              width='300'
-              title='Strava Club Activities'
-              sandbox="allow-scripts allow-same-origin allow-popups"
-            ></iframe>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="text-white hover:text-white/80 transition-colors uppercase text-xs font-bold tracking-wider border border-white/20 px-4 py-2 rounded-full hover:bg-white/10"
