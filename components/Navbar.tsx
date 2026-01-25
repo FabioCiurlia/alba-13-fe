@@ -29,7 +29,7 @@ export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: Club
             <AnimatedLink to="/training" className="hover:opacity-100 transition-opacity uppercase">Allenamenti</AnimatedLink>
             <AnimatedLink to="/athletes" className="hover:opacity-100 transition-opacity uppercase">Atleti</AnimatedLink>
             <AnimatedLink to="/news" className="hover:opacity-100 transition-opacity uppercase">Eventi</AnimatedLink>
-            <AnimatedLink to="/" className="hover:opacity-100 transition-opacity uppercase">Calendario</AnimatedLink>
+            <AnimatedLink to="/calendar" className="hover:opacity-100 transition-opacity uppercase">Calendario</AnimatedLink>
           </div>
 
           {/* Right: Elegant Switch */}
@@ -58,7 +58,7 @@ export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: Club
 
           {/* Mobile Menu Toggle & Calendar */}
           <div className="md:hidden flex items-center gap-4 z-30">
-            <AnimatedLink to="/" className="text-white/90 hover:text-white">
+            <AnimatedLink to="/calendar" className="text-white/90 hover:text-white">
               <Calendar size={24} />
             </AnimatedLink>
             <button
@@ -106,7 +106,7 @@ export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: Club
             Eventi
           </AnimatedLink>
           <AnimatedLink
-            to="/"
+            to="/calendar"
             className={`transition-colors ${itemHover}`}
             onClick={() => setIsOpen(false)}
           >

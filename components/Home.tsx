@@ -3,6 +3,7 @@ import { Navbar } from './Navbar';
 import { Hero } from './Hero';
 import { AthleteSection } from './AthleteSection';
 import { BlogSection } from './BlogSection';
+import { CompetitionsSection } from './CompetitionsSection';
 import { Footer } from './Footer';
 import { ClubContext, ClubType } from '../types';
 import { getClubContent } from '../services/sanityService';
@@ -128,6 +129,7 @@ export const Home: React.FC<HomeProps> = ({ activeClub, setActiveClub }) => {
                             activeClub={activeClub}
                         />
                         <BlogSection posts={data?.blogPosts} activeClub={activeClub} />
+                        <CompetitionsSection activeClub={activeClub} />
                     </div>
                 )}
             </main>
