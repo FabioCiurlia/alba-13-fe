@@ -44,7 +44,7 @@ export const Hero: React.FC<HeroProps> = ({ activeClub, data, mainPost, recentPo
     : ({ children }: { children: React.ReactNode }) => <div className="h-full">{children}</div>;
 
   return (
-    <div className="relative w-full h-[85vh] md:h-[90vh] bg-slate-900 overflow-hidden">
+    <div className="relative w-full h-[90vh] md:h-[90vh] bg-slate-900 overflow-hidden">
 
       {/* --- MAIN BACKGROUND IMAGE --- */}
       <div className="absolute inset-0 z-0">
@@ -52,8 +52,8 @@ export const Hero: React.FC<HeroProps> = ({ activeClub, data, mainPost, recentPo
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[3s] ease-out hover:scale-105"
           style={{ backgroundImage: `url(${bgImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent z-10 opacity-90" />
-        <div className="absolute inset-0 bg-black/20 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent z-10 opacity-70" />
+        <div className="absolute inset-0 bg-black/10 z-10" />
       </div>
 
       <MainWrapper>

@@ -5,6 +5,7 @@ import { Navbar } from './Navbar';
 import { ArrowLeft, Calendar as CalendarIcon, MapPin, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { navigateBackWithTransition } from '../utils/navigationUtils';
+import { ShareButton } from './ShareButton';
 
 interface CalendarArchiveProps {
     activeClub: ClubType;
@@ -59,11 +60,6 @@ export const CalendarArchive: React.FC<CalendarArchiveProps> = ({ activeClub, se
                     fromDate = start;
                     toDate = end;
                 }
-
-                // If "all" -> maybe just from today onwards? Or truly all? 
-                // Let's assume "Active/Upcoming" so from today if no specific filter?
-                // The user requested "Events in this week or this month", not explicit about "All".
-                // I'll leave dates undefined for 'all' to fetch everything (maybe limit?).
 
                 const data = await findCompetitions(
                     selectedRegion || undefined,
@@ -181,13 +177,16 @@ export const CalendarArchive: React.FC<CalendarArchiveProps> = ({ activeClub, se
                                             {comp.type || 'Gara'}
                                         </span>
                                         <span className="text-xs opacity-60 flex items-center gap-1">
-                                            <MapPin size={12} />{comp.city.charAt(0).toUpperCase() + comp.city.slice(1).toLowerCase()}, {comp.region}
+                                            <MapPin size={12} />{comp.city ? (comp.city.charAt(0).toUpperCase() + comp.city.slice(1).toLowerCase()) : ''}, {comp.region}
                                         </span>
                                     </div>
 
-                                    <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">
-                                        {comp.name}
-                                    </h3>
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors flex-1 pr-2">
+                                            {comp.name}
+                                        </h3>
+                                        <ShareButton competition={comp} className={`p-2 rounded-full ${isAlba ? 'bg-slate-800 text-cyan-400 hover:bg-slate-700' : 'bg-stone-800 text-yellow-400 hover:bg-stone-700'}`} />
+                                    </div>
                                     <h4 className="text-md mb-2 group-hover:text-cyan-400 transition-colors">
                                         {comp.subname}
                                     </h4>

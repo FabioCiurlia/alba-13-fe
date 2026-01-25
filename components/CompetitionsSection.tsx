@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ClubType } from '../types';
 import { findCompetitions, Competition, getStartAndEndOfMonth } from '../services/competitionService';
 import { Calendar, MapPin, ArrowRight, Trophy } from 'lucide-react';
+
 import { AnimatedLink } from './AnimatedLink';
+import { ShareButton } from './ShareButton';
 
 interface CompetitionsSectionProps {
     activeClub: ClubType;
@@ -74,9 +76,12 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
                                 </span>
                             </div>
 
-                            <h3 className="text-lg font-bold mb-1 line-clamp-2 group-hover:text-cyan-600 transition-colors">
-                                {comp.name}
-                            </h3>
+                            <div className="flex justify-between items-start">
+                                <h3 className="text-lg font-bold mb-1 line-clamp-2 group-hover:text-cyan-600 transition-colors flex-1 pr-2">
+                                    {comp.name}
+                                </h3>
+                                <ShareButton competition={comp} iconSize={16} />
+                            </div>
                             {comp.subname && (
                                 <p className="text-sm opacity-60 mb-4 line-clamp-1">{comp.subname}</p>
                             )}

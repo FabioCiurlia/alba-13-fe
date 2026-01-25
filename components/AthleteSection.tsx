@@ -21,7 +21,7 @@ export const AthleteSection: React.FC<AthleteSectionProps> = ({ athletes, aboutD
   if ((!athletes || athletes.length === 0) && !aboutData) return null;
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
+    <section className="relative py-10 md:py-32 overflow-hidden">
 
       {/* --- BACKGROUND TEXTURE & AMBIENT GLOWS --- */}
       <div className="absolute inset-0 bg-slate-50 z-0">
@@ -39,7 +39,7 @@ export const AthleteSection: React.FC<AthleteSectionProps> = ({ athletes, aboutD
         <div className={`absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t ${ambientGradient} rounded-full blur-3xl opacity-40 transform -translate-x-1/3 translate-y-1/4 pointer-events-none`} />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-10 relative z-10">
 
         {/* --- MERGED ABOUT SECTION --- */}
         {aboutData && (
