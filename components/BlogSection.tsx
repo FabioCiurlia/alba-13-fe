@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BlogPost, ClubType } from '../types';
 import { ArrowRight, BookOpen, Activity, Timer, TrendingUp, MapPin } from 'lucide-react';
 import { AnimatedLink } from './AnimatedLink';
@@ -36,71 +36,21 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
               Il Nostro Percorso
             </span>
             <h2 className={`text-4xl font-bold mt-2 ${isAlba ? 'text-slate-900' : 'text-neutral-900'}`}>
-              News & Allenamenti
+              News & Eventi
             </h2>
           </div>
-          <AnimatedLink to="/news" className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
+          <AnimatedLink to={`/${activeClub}/news`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
             Vedi Tutte le News <ArrowRight size={16} />
           </AnimatedLink>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12">
 
-          {/* Subsection: Training Log (Featured Left Side) */}
-          <div className={`lg:w-1/3 rounded-3xl p-8 relative overflow-hidden flex flex-col justify-between ${trainingBg}`}>
-            {/* Abstract Background Decoration */}
-            <div className={`absolute top-0 right-0 w-64 h-64 opacity-10 transform translate-x-1/3 -translate-y-1/3 rounded-full ${isAlba ? 'bg-cyan-500' : 'bg-yellow-500'}`} />
-
-
-
-            <div className="space-y-8 relative z-10">
-              <div className="relative z-10 flex items-center gap-2 mb-8">
-                <Activity size={20} className={isAlba ? 'text-cyan-400' : 'text-yellow-400'} />
-                <h3 className="text-xl font-bold tracking-tight">Storico Allenamenti</h3>
-              </div>
-              {trainingPosts.map((post) => (
-                <AnimatedLink key={post.id} to={`/blog/${post.slug?.current || ''}`} className="group block cursor-pointer">
-                  <div className={`text-xs font-bold uppercase tracking-wider mb-2 opacity-60 ${isAlba ? 'text-cyan-200' : 'text-yellow-200'}`}>
-                    {formatDate(post.date)} • {post.author}
-                  </div>
-                  <h4 className={`text-2xl font-bold mb-3 transition-colors ${buttonStyle}`}>
-                    {post.title}
-                  </h4>
-                  <div className="flex items-center gap-4 text-xs font-mono opacity-80 mb-4">
-                    {post.durata && (
-                      <div className="flex items-center gap-1.5">
-                        <Timer size={14} /> {post.durata}
-                      </div>
-                    )}
-                    {post.distanza && (
-                      <div className="flex items-center gap-1.5">
-                        <MapPin size={14} /> {post.distanza}
-                      </div>
-                    )}
-                    {post.level && (
-                      <div className="flex items-center gap-1.5">
-                        <TrendingUp size={14} /> {post.level}
-                      </div>
-                    )}
-                  </div>
-                  <div className="h-px w-full bg-white/10 group-last:hidden" />
-                </AnimatedLink>
-              ))}
-            </div>
-
-            <div className="mt-12">
-              <AnimatedLink to="/training" className={`block w-full text-center py-3 rounded-xl text-sm font-bold border border-white/20 hover:bg-white/10 transition-all`}>
-                Vedi tutti gli Allenamenti
-              </AnimatedLink>
-            </div>
-
-          </div>
-
           {/* General Blog Grid (Right Side) */}
           <div className="lg:w-2/3 flex flex-col h-full">
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               {otherPosts.map((post) => (
-                <AnimatedLink key={post.id} to={`/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
+                <AnimatedLink key={post.id} to={`/${activeClub}/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
                   <div className="relative overflow-hidden rounded-2xl mb-4 aspect-[16/10] bg-slate-100">
                     {post.imageUrl ? (
                       <img
@@ -135,7 +85,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
 
             {/* Mobile-only "View All" button at the bottom */}
             <div className="mt-auto md:hidden">
-              <AnimatedLink to="/news" className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-slate-100 ${isAlba ? 'text-cyan-700' : 'text-yellow-700'}`}>
+              <AnimatedLink to={`/${activeClub}/news`} className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-slate-100 ${isAlba ? 'text-cyan-700' : 'text-yellow-700'}`}>
                 Vedi Tutte le News <ArrowRight size={16} />
               </AnimatedLink>
             </div>

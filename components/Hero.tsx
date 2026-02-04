@@ -1,7 +1,7 @@
 import React from 'react';
 import { ClubType, HeroData, BlogPost } from '../types';
 import { ChevronRight, Calendar, User, Clock, ArrowRight, Activity, MapPin, Zap, Coffee, ArrowUpRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { formatDate } from '../utils/dateUtils';
 
 interface HeroProps {
@@ -40,7 +40,7 @@ export const Hero: React.FC<HeroProps> = ({ activeClub, data, mainPost, recentPo
 
   // Link to either the blog post or nowhere (if just hero data)
   const MainWrapper = mainPost
-    ? ({ children }: { children: React.ReactNode }) => <Link to={`/blog/${mainPost.slug.current}`} className="block h-full group">{children}</Link>
+    ? ({ children }: { children: React.ReactNode }) => <Link href={`/${activeClub}/blog/${mainPost.slug.current}`} className="block h-full group">{children}</Link>
     : ({ children }: { children: React.ReactNode }) => <div className="h-full">{children}</div>;
 
   return (
@@ -106,7 +106,7 @@ export const Hero: React.FC<HeroProps> = ({ activeClub, data, mainPost, recentPo
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 lg:ml-16">
               {recentPosts.map((post) => (
                 <Link
-                  to={`/blog/${post.slug.current}`}
+                  href={`/${activeClub}/blog/${post.slug.current}`}
                   key={post.id}
                   className="relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all duration-300 group p-4 flex gap-4 items-center"
                 >

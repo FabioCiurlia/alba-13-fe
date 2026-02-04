@@ -1,47 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { BlogPost } from '../types';
-import { ArrowLeft, User, Clock, MapPin, TrendingUp, Timer } from 'lucide-react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getBlogPostBySlug } from '../services/sanityService';
-import { formatDate } from '../utils/dateUtils';
-import { navigateBackWithTransition } from '../utils/navigationUtils';
-import { AnimatedLink } from './AnimatedLink';
-import { ArrowRight } from 'lucide-react';
-import { Gallery } from './Gallery';
+import React from 'react';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { getBlogPostBySlug } from '@/services/sanityService';
+import { ClubType } from '@/types';
+import { Navbar } from '@/components/Navbar';
+import { AnimatedLink } from '@/components/AnimatedLink';
+import { formatDate } from '@/utils/dateUtils';
+import { ArrowLeft, User, Clock, MapPin, TrendingUp, Timer, ArrowRight } from 'lucide-react';
+import { Gallery } from '@/components/Gallery';
 
-import { Navbar } from './Navbar';
-import { ClubType } from '../types';
-
-interface ArticleDetailProps {
-    activeClub?: ClubType;
-    setActiveClub?: (club: ClubType) => void;
+interface PageProps {
+    params: Promise<{
+        club: string;
+        slug: string;
+    }>;
 }
 
-export const ArticleDetail: React.FC<ArticleDetailProps> = ({ activeClub: propActiveClub, setActiveClub: propSetActiveClub }) => {
-    const { slug } = useParams<{ slug: string }>();
-    const navigate = useNavigate();
-    const [post, setPost] = useState<BlogPost | null>(null);
-    const [loading, setLoading] = useState(true);
+export default async function BlogPostPage({ params }: PageProps) {
+    const { club, slug } = await params;
 
-    // Default to 'alba13' if not provided (fallback)
-    const activeClub = propActiveClub || 'alba13';
-    const setActiveClub = propSetActiveClub || (() => { });
+    const activeClub = club as ClubType;
+    const post = await getBlogPostBySlug(slug);
 
-    useEffect(() => {
-        const loadPost = async () => {
-            if (!slug) return;
-            const data = await getBlogPostBySlug(slug);
-            setPost(data);
-            setLoading(false);
-        };
-        loadPost();
-    }, [slug]);
+    if (!post) {
+        notFound();
+    }
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center">Loading article...</div>;
-    if (!post) return <div className="min-h-screen flex items-center justify-center">Article not found</div>;
-
-    // Derive theme from post team or default
-    const isAlba = post.team === 'Alba13';
+    const isAlba = post.team === 'Alba13'; // Or use activeClub? Better to use post team if available, or just activeClub for theme consistency
     const isTraining = post.category === 'Training';
 
     // Theme colors
@@ -53,17 +38,24 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ activeClub: propAc
         // Specialized Layout for Training Log
         return (
             <div className={`min-h-screen ${isAlba ? 'bg-slate-50' : 'bg-neutral-50'}`}>
-                <Navbar activeClub={activeClub} setActiveClub={setActiveClub} />
+                <Navbar />
 
                 {/* Fixed Sub-Navbar for Back Navigation */}
                 <div className={`fixed top-16 left-0 right-0 z-40 backdrop-blur-md border-b transition-colors duration-300 ${isAlba ? 'bg-slate-50/90 border-slate-200' : 'bg-neutral-50/90 border-neutral-200'}`}>
                     <div className="container mx-auto px-6 max-w-4xl h-16 flex items-center justify-between relative">
-                        <button
-                            onClick={() => navigateBackWithTransition(navigate)}
+                        <Link
+                            // Or back to training archive? User usually wants back to previous context.
+                            // But for simple SEO structure, back to Club Home or Training Home is cleaner. 
+                            // Let's rely on browser back for strict history, but this UI button should probably go closer to "Home" or "Training".
+                            // The original used navigateBackWithTransition.
+                            // We'll link to /[club]/training if it's a training post.
+                            // Actually, standard behavior for "Back" button in UI is context dependent. 
+                            // Let's link to the Training Archive for training posts.
+                            href={`/${activeClub}/training`}
                             className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors ${themeColor}`}
                         >
                             <ArrowLeft size={24} />
-                        </button>
+                        </Link>
 
                         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-bold md:opacity-100 transition-opacity truncate max-w-[60%]">
                             {post.title}
@@ -134,17 +126,17 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ activeClub: propAc
     // Standard Layout
     return (
         <div className="min-h-screen bg-white">
-            <Navbar activeClub={activeClub} setActiveClub={setActiveClub} />
+            <Navbar />
 
             {/* Fixed Sub-Navbar for Back Navigation */}
             <div className={`fixed top-16 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100`}>
                 <div className="container mx-auto px-6 max-w-3xl h-16 flex items-center justify-between relative">
-                    <button
-                        onClick={() => navigateBackWithTransition(navigate)}
+                    <Link
+                        href={`/${activeClub}/news`}
                         className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 transition-colors ${themeColor}`}
                     >
                         <ArrowLeft size={24} />
-                    </button>
+                    </Link>
 
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-bold md:opacity-100 transition-opacity truncate max-w-[60%] text-slate-900">
                         {post.title}
@@ -181,15 +173,13 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ activeClub: propAc
                 <article className="prose prose-lg max-w-none prose-slate">
                     {post.content ? (
                         <div className="space-y-4">
-                            {/* Simple block renderer for example purposes. Real app should use @portabletext/react */}
                             {post.content.map((block: any, i: number) => {
                                 if (block._type === 'block' && block.children) {
                                     return <p key={i}>{block.children.map((child: any) => child.text).join('')}</p>;
                                 }
                                 if (block._type === 'gallery' && block.images) {
-                                    // Parse images based on sanity helper or expected format
                                     const images = block.images.map((img: any) => ({
-                                        url: img?.asset?.url || img?.url || '', // Adjust based on your actual GROQ projection for gallery
+                                        url: img?.asset?.url || img?.url || '',
                                         alt: img?.alt,
                                         _key: img?._key
                                     })).filter((img: any) => img.url);
@@ -213,11 +203,11 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ activeClub: propAc
                     )}
                 </article>
                 <div className="mt-8">
-                    <AnimatedLink to="/news" className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
+                    <AnimatedLink to={`/${activeClub}/news`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
                         Vedi tutte le News <ArrowRight size={16} />
                     </AnimatedLink>
                 </div>
             </div>
         </div>
     );
-};
+}

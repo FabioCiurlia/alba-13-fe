@@ -42,12 +42,12 @@ export const getClubContent = async (type: ClubType): Promise<ClubContext | null
       "imageUrl": image.asset->url
     },
 
-    "athletes": *[_type == "athlete" && team == $teamName] {
+    "athletes": *[_type == "athlete" && team == $teamName] | order(order asc) {
       "id": _id,
       name,
       category,
       role,
-      "imageUrl": image.asset->url
+      "imageUrl": select(defined(urlImage) => urlImage, image.asset->url)
     },
     "blogPosts": *[_type == "blogPost" && team == $teamName] {
       "id": _id,

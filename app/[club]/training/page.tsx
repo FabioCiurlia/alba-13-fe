@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { ClubType, BlogPost } from '../types';
-import { getClubContent } from '../services/sanityService';
+import React from 'react';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { getClubContent } from '@/services/sanityService';
+import { ClubType } from '@/types';
+import { Navbar } from '@/components/Navbar';
+import { AnimatedLink } from '@/components/AnimatedLink';
+import { formatDate } from '@/utils/dateUtils';
 import { ArrowLeft, Activity } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { AnimatedLink } from './AnimatedLink';
-import { formatDate } from '../utils/dateUtils';
-import { navigateBackWithTransition } from '../utils/navigationUtils';
 
-import { Navbar } from './Navbar';
+const VALID_CLUBS = ['alba13', 'ros6team'];
 
-interface TrainingArchiveProps {
-    activeClub: ClubType;
-    setActiveClub: (club: ClubType) => void;
-}
+export default async function TrainingPage({ params }: { params: Promise<{ club: string }> }) {
+    const { club } = await params;
 
-export const TrainingArchive: React.FC<TrainingArchiveProps> = ({ activeClub, setActiveClub }) => {
-    const [posts, setPosts] = useState<BlogPost[]>([]);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    if (!VALID_CLUBS.includes(club)) {
+        notFound();
+    }
+
+    const activeClub = club as ClubType;
+    const content = await getClubContent(activeClub);
+    const posts = content?.blogPosts?.filter(p => p.category === 'Training') || [];
 
     const isAlba = activeClub === 'alba13';
     const themeColors = isAlba
@@ -26,41 +28,19 @@ export const TrainingArchive: React.FC<TrainingArchiveProps> = ({ activeClub, se
     const accentColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
     const cardBg = isAlba ? 'bg-slate-900 text-white' : 'bg-stone-900 text-white';
 
-    useEffect(() => {
-        const loadData = async () => {
-            setLoading(true);
-            try {
-                // We fetch the club content to get all posts, then filter.
-                // In a larger app, we'd have a specific query for this.
-                const content = await getClubContent(activeClub);
-                if (content?.blogPosts) {
-                    const trainingPosts = content.blogPosts.filter(p => p.category === 'Training');
-                    setPosts(trainingPosts);
-                }
-            } catch (error) {
-                console.error("Failed to load archive", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadData();
-    }, [activeClub]);
-
-    if (loading) return <div className="min-h-screen flex items-center justify-center">Loading Archive...</div>;
-
     return (
         <div className={`min-h-screen ${themeColors}`}>
-            <Navbar activeClub={activeClub} setActiveClub={setActiveClub} />
+            <Navbar />
 
             {/* Fixed Sub-Navbar */}
             <div className={`fixed top-16 left-0 right-0 z-40 border-b backdrop-blur-md ${isAlba ? 'bg-slate-50/90 border-slate-200' : 'bg-neutral-50/90 border-neutral-200'}`}>
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
-                    <button
-                        onClick={() => navigateBackWithTransition(navigate)}
+                    <Link
+                        href={`/${activeClub}`}
                         className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors ${accentColor}`}
                     >
                         <ArrowLeft size={24} />
-                    </button>
+                    </Link>
 
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-bold md:opacity-100 transition-opacity">
                         Tutti gli Allenamenti
@@ -82,7 +62,7 @@ export const TrainingArchive: React.FC<TrainingArchiveProps> = ({ activeClub, se
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.map((post) => (
-                        <AnimatedLink key={post.id} to={`/blog/${post.slug?.current || ''}`} className={`group block rounded-2xl overflow-hidden shadow-lg ${cardBg} hover:shadow-xl transition-all`}>
+                        <AnimatedLink key={post.id} to={`/${activeClub}/blog/${post.slug?.current || ''}`} className={`group block rounded-2xl overflow-hidden shadow-lg ${cardBg} hover:shadow-xl transition-all`}>
                             <div className="aspect-video relative overflow-hidden bg-slate-800">
                                 {post.imageUrl ? (
                                     <img
@@ -101,7 +81,7 @@ export const TrainingArchive: React.FC<TrainingArchiveProps> = ({ activeClub, se
                             </div>
                             <div className="p-6">
                                 <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{post.title}</h3>
-                                <p className="text-sm opacity-60 line-clamp-2">{post.excerpt}</p>
+                                <p className="text-sm opacity-60 line-clamp-2">{post.subtitle}</p>
                                 <div className="mt-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider opacity-50">
                                     <span>{post.author}</span>
                                 </div>
@@ -118,4 +98,4 @@ export const TrainingArchive: React.FC<TrainingArchiveProps> = ({ activeClub, se
             </div>
         </div>
     );
-};
+}

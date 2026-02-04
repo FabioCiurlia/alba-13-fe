@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { ClubType } from '../types';
 import { findCompetitions, Competition, getStartAndEndOfMonth } from '../services/competitionService';
@@ -59,7 +61,7 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
                         </h2>
                         <p className="opacity-60 mt-2">Competizioni in programma questo mese nella nostra regione</p>
                     </div>
-                    <AnimatedLink to="/calendar" className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
+                    <AnimatedLink to={`/${activeClub}/calendar`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
                         Vedi Calendario Completo <ArrowRight size={16} />
                     </AnimatedLink>
                 </div>
@@ -101,7 +103,7 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
                 </div>
 
                 <div className="mt-8 md:hidden">
-                    <AnimatedLink to="/calendar" className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-white border ${isAlba ? 'text-cyan-700 border-slate-200' : 'text-yellow-700 border-neutral-200'}`}>
+                    <AnimatedLink to={`/${activeClub}/calendar`} className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-white border ${isAlba ? 'text-cyan-700 border-slate-200' : 'text-yellow-700 border-neutral-200'}`}>
                         Vedi Calendario Completo <ArrowRight size={16} />
                     </AnimatedLink>
                 </div>

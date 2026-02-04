@@ -1,46 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { ClubType, Athlete } from '../types';
-import { getClubContent } from '../services/sanityService';
+import React from 'react';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { getClubContent } from '@/services/sanityService';
+import { ClubType, Athlete } from '@/types';
+import { Navbar } from '@/components/Navbar';
 import { ArrowLeft, Users } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { navigateBackWithTransition } from '../utils/navigationUtils';
 
-import { Navbar } from './Navbar';
+const VALID_CLUBS = ['alba13', 'ros6team'];
 
-interface AthleteArchiveProps {
-    activeClub: ClubType;
-    setActiveClub: (club: ClubType) => void;
-}
+export default async function AthletesPage({ params }: { params: Promise<{ club: string }> }) {
+    const { club } = await params;
 
-export const AthleteArchive: React.FC<AthleteArchiveProps> = ({ activeClub, setActiveClub }) => {
-    const [athletes, setAthletes] = useState<Athlete[]>([]);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    if (!VALID_CLUBS.includes(club)) {
+        notFound();
+    }
+
+    const activeClub = club as ClubType;
+    const content = await getClubContent(activeClub);
+    const athletes = content?.athletes || [];
 
     const isAlba = activeClub === 'alba13';
     const themeColors = isAlba
         ? 'bg-slate-50 text-slate-900'
         : 'bg-neutral-50 text-neutral-900';
     const accentColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
-
-    useEffect(() => {
-        const loadData = async () => {
-            setLoading(true);
-            try {
-                const content = await getClubContent(activeClub);
-                if (content?.athletes) {
-                    setAthletes(content.athletes);
-                }
-            } catch (error) {
-                console.error("Failed to load athletes", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadData();
-    }, [activeClub]);
-
-    if (loading) return <div className="min-h-screen flex items-center justify-center">Loading Roster...</div>;
 
     // Group athletes by category
     const groupedAthletes = athletes.reduce((acc, athlete) => {
@@ -54,17 +37,17 @@ export const AthleteArchive: React.FC<AthleteArchiveProps> = ({ activeClub, setA
 
     return (
         <div className={`min-h-screen ${themeColors}`}>
-            <Navbar activeClub={activeClub} setActiveClub={setActiveClub} />
+            <Navbar />
 
             {/* Fixed Sub-Navbar */}
             <div className={`fixed top-16 left-0 right-0 z-40 border-b backdrop-blur-md ${isAlba ? 'bg-slate-50/90 border-slate-200' : 'bg-neutral-50/90 border-neutral-200'}`}>
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
-                    <button
-                        onClick={() => navigateBackWithTransition(navigate)}
+                    <Link
+                        href={`/${activeClub}`}
                         className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors ${accentColor}`}
                     >
                         <ArrowLeft size={24} />
-                    </button>
+                    </Link>
 
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-bold md:opacity-100 transition-opacity">
                         Il Team Completo
@@ -118,4 +101,4 @@ export const AthleteArchive: React.FC<AthleteArchiveProps> = ({ activeClub, setA
             </div>
         </div>
     );
-};
+}

@@ -1,15 +1,16 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { ClubType } from '../types';
-import { findCompetitions, Competition, getStartAndEndOfWeek, getStartAndEndOfMonth } from '../services/competitionService';
+import { ClubType } from '@/types';
+import { findCompetitions, Competition, getStartAndEndOfWeek, getStartAndEndOfMonth } from '@/services/competitionService';
 import { Navbar } from './Navbar';
 import { ArrowLeft, Calendar as CalendarIcon, MapPin, Trophy } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { navigateBackWithTransition } from '../utils/navigationUtils';
+import { useRouter } from 'next/navigation';
 import { ShareButton } from './ShareButton';
+import Link from 'next/link';
 
-interface CalendarArchiveProps {
+interface CalendarContentProps {
     activeClub: ClubType;
-    setActiveClub: (club: ClubType) => void;
 }
 
 const ITALIAN_REGIONS = [
@@ -24,21 +25,20 @@ const RUNNING_TYPES = [
     "RUNNING", "TRAIL", "ULTRAMARATONA"
 ];
 
-export const CalendarArchive: React.FC<CalendarArchiveProps> = ({ activeClub, setActiveClub }) => {
+export const CalendarContent: React.FC<CalendarContentProps> = ({ activeClub }) => {
     const [competitions, setCompetitions] = useState<Competition[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedRegion, setSelectedRegion] = useState<string>('');
     const [selectedType, setSelectedType] = useState<string>('');
     const [timeFilter, setTimeFilter] = useState<'all' | 'week' | 'month'>('month');
 
-    const navigate = useNavigate();
+    const router = useRouter();
     const isAlba = activeClub === 'alba13';
 
     const themeColors = isAlba
         ? 'bg-slate-50 text-slate-900'
         : 'bg-neutral-50 text-neutral-900';
     const accentColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
-    const accentBg = isAlba ? 'bg-cyan-600' : 'bg-yellow-600';
     const cardBg = isAlba ? 'bg-slate-900 text-white' : 'bg-stone-900 text-white';
 
     useEffect(() => {
@@ -48,8 +48,6 @@ export const CalendarArchive: React.FC<CalendarArchiveProps> = ({ activeClub, se
                 // Calculate dates based on filter
                 let fromDate: string | undefined;
                 let toDate: string | undefined;
-
-                const now = new Date();
 
                 if (timeFilter === 'week') {
                     const { start, end } = getStartAndEndOfWeek();
@@ -80,17 +78,17 @@ export const CalendarArchive: React.FC<CalendarArchiveProps> = ({ activeClub, se
 
     return (
         <div className={`min-h-screen ${themeColors}`}>
-            <Navbar activeClub={activeClub} setActiveClub={setActiveClub} />
+            <Navbar />
 
             {/* Fixed Sub-Navbar */}
             <div className={`fixed top-16 left-0 right-0 z-40 border-b backdrop-blur-md ${isAlba ? 'bg-slate-50/90 border-slate-200' : 'bg-neutral-50/90 border-neutral-200'}`}>
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
-                    <button
-                        onClick={() => navigateBackWithTransition(navigate)}
+                    <Link
+                        href={`/${activeClub}`}
                         className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors ${accentColor}`}
                     >
                         <ArrowLeft size={24} />
-                    </button>
+                    </Link>
 
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-bold md:opacity-100 transition-opacity">
                         Calendario Gare

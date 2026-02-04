@@ -7,10 +7,12 @@ const athlete = {
   type: 'document',
   fields: [
     { name: 'name', type: 'string', title: 'Full Name' },
-    { name: 'category', type: 'string', title: 'Category (e.g., Elite Sprinter)' },
-    { name: 'role', type: 'string', title: 'Role (Optional)' },
-    { name: 'image', type: 'image', title: 'Profile Picture', options: { hotspot: true } },
-    { name: 'team', type: 'string', title: 'Squadra', options: { list: ['Alba13', 'Ros6Team'] } }
+    { name: 'order', type: 'number', title: 'Ordine di Visualizzazione' },
+    { name: 'category', type: 'string', title: 'Category' },
+    { name: 'role', type: 'string', title: 'Ruolo' },
+    { name: 'image', type: 'image', title: 'Immagine Profilo', options: { hotspot: true } },
+    { name: 'urlImage', type: 'string', title: 'Link a Immagine Profilo' },
+    { name: 'team', type: 'string', title: 'Squadra', options: { list: ['Alba13', 'Ros6Team', 'Spartan Kids'] } }
   ]
 };
 

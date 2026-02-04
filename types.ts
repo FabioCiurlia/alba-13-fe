@@ -28,7 +28,7 @@ export interface BlogPost {
   title: string;
   subtitle?: string;
   date: string;
-  category: 'Training' | 'News' | 'Event' | 'Lifestyle';
+  category: 'News' | 'Event' | 'Lifestyle';
   imageUrl?: string;
   slug: { current: string };
   author: string;

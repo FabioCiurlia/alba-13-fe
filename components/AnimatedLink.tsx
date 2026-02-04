@@ -1,8 +1,9 @@
+'use client';
+
 import React from 'react';
-import { Link, LinkProps, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { flushSync } from 'react-dom';
 
-// Extend the Window interface to include startViewTransition
 declare global {
     interface Document {
         startViewTransition?: (callback: () => void) => {
@@ -13,31 +14,33 @@ declare global {
     }
 }
 
-interface AnimatedLinkProps extends LinkProps {
+interface AnimatedLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    to: string; // Keeping 'to' for compatibility with existing usage
     children: React.ReactNode;
 }
 
-export const AnimatedLink: React.FC<AnimatedLinkProps> = ({ to, children, ...props }) => {
-    const navigate = useNavigate();
+export const AnimatedLink: React.FC<AnimatedLinkProps> = ({ to, children, className, onClick, ...props }) => {
+    const router = useRouter();
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (onClick) onClick(e);
         e.preventDefault();
 
         const doc = document as any;
         if (!doc.startViewTransition) {
-            navigate(to);
+            router.push(to);
             return;
         }
 
         doc.startViewTransition(() => {
             flushSync(() => {
-                navigate(to);
+                router.push(to);
             });
         });
     };
 
     return (
-        <a href={to.toString()} onClick={handleClick} {...props}>
+        <a href={to} onClick={handleClick} className={className} {...props}>
             {children}
         </a>
     );

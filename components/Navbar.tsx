@@ -1,16 +1,20 @@
+'use client';
+
 import React, { useState } from 'react';
-import { ClubType } from '../types';
 import { Menu, X, Calendar } from 'lucide-react';
 import { AnimatedLink } from './AnimatedLink';
+import { useClub } from './ClubProvider';
 
-
-export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: ClubType) => void }> = ({ activeClub, setActiveClub }) => {
+export const Navbar: React.FC = () => {
+  const { activeClub, setActiveClub } = useClub();
   const [isOpen, setIsOpen] = useState(false);
   const isAlba = activeClub === 'alba13';
 
   // Theme colors for the drawer
   const drawerBg = isAlba ? 'bg-slate-900' : 'bg-neutral-900';
   const itemHover = isAlba ? 'hover:text-cyan-400' : 'hover:text-yellow-400';
+
+  const clubPrefix = `/${activeClub}`;
 
   return (
     <>
@@ -25,16 +29,16 @@ export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: Club
 
           {/* Center: Desktop Nav */}
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-8 text-sm font-medium opacity-80 z-20">
-            <AnimatedLink to="/" className="hover:opacity-100 transition-opacity uppercase">Home</AnimatedLink>
-            <AnimatedLink to="/training" className="hover:opacity-100 transition-opacity uppercase">Allenamenti</AnimatedLink>
-            <AnimatedLink to="/athletes" className="hover:opacity-100 transition-opacity uppercase">Atleti</AnimatedLink>
-            <AnimatedLink to="/news" className="hover:opacity-100 transition-opacity uppercase">Eventi</AnimatedLink>
-            <AnimatedLink to="/calendar" className="hover:opacity-100 transition-opacity uppercase">Calendario</AnimatedLink>
+            <AnimatedLink to={clubPrefix} className="hover:opacity-100 transition-opacity uppercase">Home</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/training`} className="hover:opacity-100 transition-opacity uppercase">Allenamenti</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/athletes`} className="hover:opacity-100 transition-opacity uppercase">Atleti</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/news`} className="hover:opacity-100 transition-opacity uppercase">Eventi</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/calendar`} className="hover:opacity-100 transition-opacity uppercase">Calendario</AnimatedLink>
           </div>
 
           {/* Right: Elegant Switch */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:static md:transform-none md:flex md:ml-auto z-20">
-            <div className="bg-black/20 p-1 rounded-full flex items-center backdrop-blur-sm border border-white/10">
+          <div className="hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:static md:transform-none md:flex md:ml-auto z-20">
+            <div className="hidden bg-black/20 p-1 rounded-full flex items-center backdrop-blur-sm border border-white/10">
               <button
                 onClick={() => setActiveClub('alba13')}
                 className={`
@@ -58,7 +62,7 @@ export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: Club
 
           {/* Mobile Menu Toggle & Calendar */}
           <div className="md:hidden flex items-center gap-4 z-30">
-            <AnimatedLink to="/calendar" className="text-white/90 hover:text-white">
+            <AnimatedLink to={`${clubPrefix}/calendar`} className="text-white/90 hover:text-white">
               <Calendar size={24} />
             </AnimatedLink>
             <button
@@ -78,35 +82,35 @@ export const Navbar: React.FC<{ activeClub: ClubType; setActiveClub: (club: Club
         `}>
         <div className="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-bold">
           <AnimatedLink
-            to="/"
+            to={clubPrefix}
             className={`transition-colors ${itemHover}`}
             onClick={() => setIsOpen(false)}
           >
             Home
           </AnimatedLink>
           <AnimatedLink
-            to="/training"
+            to={`${clubPrefix}/training`}
             className={`transition-colors ${itemHover}`}
             onClick={() => setIsOpen(false)}
           >
             Allenamenti
           </AnimatedLink>
           <AnimatedLink
-            to="/athletes"
+            to={`${clubPrefix}/athletes`}
             className={`transition-colors ${itemHover}`}
             onClick={() => setIsOpen(false)}
           >
             Atleti
           </AnimatedLink>
           <AnimatedLink
-            to="/news"
+            to={`${clubPrefix}/news`}
             className={`transition-colors ${itemHover}`}
             onClick={() => setIsOpen(false)}
           >
             Eventi
           </AnimatedLink>
           <AnimatedLink
-            to="/calendar"
+            to={`${clubPrefix}/calendar`}
             className={`transition-colors ${itemHover}`}
             onClick={() => setIsOpen(false)}
           >
