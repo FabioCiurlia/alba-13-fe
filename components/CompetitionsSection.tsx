@@ -1,29 +1,33 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ClubType } from '../types';
 import { findCompetitions, Competition, getStartAndEndOfMonth } from '../services/competitionService';
+import { useParams } from 'next/navigation';
+import { getThemeBySlug } from '../utils/theme';
 import { Calendar, MapPin, ArrowRight, Trophy } from 'lucide-react';
 
 import { AnimatedLink } from './AnimatedLink';
 import { ShareButton } from './ShareButton';
 
 interface CompetitionsSectionProps {
-    activeClub: ClubType;
 }
 
-export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ activeClub }) => {
+export const CompetitionsSection: React.FC<CompetitionsSectionProps> = () => {
+    const params = useParams();
+    const slug = params?.club as string || 'alba13';
+    const theme = getThemeBySlug(slug);
+
     const [competitions, setCompetitions] = useState<Competition[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const isAlba = activeClub === 'alba13';
+    const isAlba = slug === 'alba13';
 
     // Theme colors
-    const sectionBg = isAlba ? 'bg-slate-50' : 'bg-neutral-50';
-    const subHeaderColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
-    const cardBg = isAlba ? 'bg-white text-slate-900 border-slate-100' : 'bg-white text-neutral-900 border-neutral-100';
-    const accentColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
-    const accentBg = isAlba ? 'bg-cyan-100' : 'bg-yellow-100';
+    const sectionBg = theme.bg;
+    const subHeaderColor = `text-${theme.primary}`;
+    const cardBg = `bg-white ${theme.text} border-slate-100`;
+    const accentColor = `text-${theme.primary}`;
+    const accentBg = `bg-${theme.light}`;
 
     useEffect(() => {
         const fetchPugliaEvents = async () => {
@@ -43,9 +47,6 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
         fetchPugliaEvents();
     }, []);
 
-    // Don't render section if no events (optional choice, but usually better to show "No events" or hide? 
-    // User asked to "show upcoming competitions", maybe if 0 we can show empty state or hide.
-    // Let's show empty state or just a few if exist.
     if (!loading && competitions.length === 0) return null;
 
     return (
@@ -56,12 +57,12 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
                         <span className={`text-xs font-bold tracking-[0.2em] uppercase ${subHeaderColor}`}>
                             Prossimi Appuntamenti
                         </span>
-                        <h2 className={`text-4xl font-bold mt-2 ${isAlba ? 'text-slate-900' : 'text-neutral-900'}`}>
+                        <h2 className={`text-4xl font-bold mt-2 ${theme.text}`}>
                             Gare in Puglia
                         </h2>
                         <p className="opacity-60 mt-2">Competizioni in programma questo mese nella nostra regione</p>
                     </div>
-                    <AnimatedLink to={`/${activeClub}/calendar`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
+                    <AnimatedLink to={`/${slug}/calendar`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors hover:text-${theme.primary}`}>
                         Vedi Calendario Completo <ArrowRight size={16} />
                     </AnimatedLink>
                 </div>
@@ -79,7 +80,7 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
                             </div>
 
                             <div className="flex justify-between items-start">
-                                <h3 className="text-lg font-bold mb-1 line-clamp-2 group-hover:text-cyan-600 transition-colors flex-1 pr-2">
+                                <h3 className={`text-lg font-bold mb-1 line-clamp-2 hover:text-${theme.primary} transition-colors flex-1 pr-2`}>
                                     {comp.name}
                                 </h3>
                                 <ShareButton competition={comp} iconSize={16} />
@@ -103,7 +104,7 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = ({ active
                 </div>
 
                 <div className="mt-8 md:hidden">
-                    <AnimatedLink to={`/${activeClub}/calendar`} className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-white border ${isAlba ? 'text-cyan-700 border-slate-200' : 'text-yellow-700 border-neutral-200'}`}>
+                    <AnimatedLink to={`/${slug}/calendar`} className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-white border text-${theme.primary} ${isAlba ? 'border-slate-200' : 'border-neutral-200'}`}>
                         Vedi Calendario Completo <ArrowRight size={16} />
                     </AnimatedLink>
                 </div>

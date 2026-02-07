@@ -87,7 +87,6 @@ const club = {
   fields: [
     { name: 'name', type: 'string', title: 'Nome Squadra' },
     { name: 'slug', type: 'slug', title: 'Slug (ID)', options: { source: 'name' } },
-    { name: 'themeColor', type: 'string', title: 'Colore Principale' },
 
     // Hero Section
     {
@@ -112,9 +111,7 @@ const club = {
         { name: 'description', type: 'text', title: 'Descrizione' },
         { name: 'image', type: 'image', title: 'Immagine' },
       ]
-    },
-
-
+    }
   ]
 };
 

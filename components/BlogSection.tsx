@@ -1,30 +1,26 @@
 import React from 'react';
-import { BlogPost, ClubType } from '../types';
-import { ArrowRight, BookOpen, Activity, Timer, TrendingUp, MapPin } from 'lucide-react';
+import { BlogPost, ClubConfig } from '../types';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import { AnimatedLink } from './AnimatedLink';
 import { formatDate } from '../utils/dateUtils';
+import { getThemeBySlug } from '@/utils/theme';
 
 interface BlogSectionProps {
   posts?: BlogPost[];
-  activeClub: ClubType;
+  config: ClubConfig;
 }
 
-export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) => {
+export const BlogSection: React.FC<BlogSectionProps> = ({ posts, config }) => {
   if (!posts || posts.length === 0) return null;
 
-  const isAlba = activeClub === 'alba13';
+  const theme = getThemeBySlug(config.slug.current);
 
-  // Filter posts
-  const trainingPosts = posts.filter(p => p.category === 'Training');
-  const otherPosts = posts.filter(p => p.category !== 'Training');
+  // Filter posts (Training was removed from types, so otherPosts will contain all)
+  const otherPosts = posts;
 
   // Styling
-  const subHeaderColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
-  const trainingBg = isAlba ? 'bg-slate-900 text-white' : 'bg-stone-900 text-white';
-  const cardHoverBorder = isAlba ? 'group-hover:border-cyan-400' : 'group-hover:border-yellow-400';
-  const buttonStyle = isAlba
-    ? 'text-cyan-400 hover:text-cyan-300'
-    : 'text-yellow-400 hover:text-yellow-300';
+  const subHeaderColor = `text-${theme.primary}`;
+  const cardHoverBorder = `group-hover:border-${theme.secondary}`;
 
   return (
     <section className="py-12 bg-white overflow-hidden">
@@ -35,11 +31,11 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
             <span className={`text-xs font-bold tracking-[0.2em] uppercase ${subHeaderColor}`}>
               Il Nostro Percorso
             </span>
-            <h2 className={`text-4xl font-bold mt-2 ${isAlba ? 'text-slate-900' : 'text-neutral-900'}`}>
+            <h2 className={`text-4xl font-bold mt-2 ${theme.text}`}>
               News & Eventi
             </h2>
           </div>
-          <AnimatedLink to={`/${activeClub}/news`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors ${isAlba ? 'hover:text-cyan-600' : 'hover:text-yellow-600'}`}>
+          <AnimatedLink to={`/${config.slug.current}/news`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors hover:text-${theme.primary}`}>
             Vedi Tutte le News <ArrowRight size={16} />
           </AnimatedLink>
         </div>
@@ -50,7 +46,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
           <div className="lg:w-2/3 flex flex-col h-full">
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               {otherPosts.map((post) => (
-                <AnimatedLink key={post.id} to={`/${activeClub}/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
+                <AnimatedLink key={post.id} to={`/${config.slug.current}/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
                   <div className="relative overflow-hidden rounded-2xl mb-4 aspect-[16/10] bg-slate-100">
                     {post.imageUrl ? (
                       <img
@@ -63,7 +59,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
                         <BookOpen size={48} />
                       </div>
                     )}
-                    <div className={`absolute top-4 left-4 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide ${isAlba ? 'text-slate-900' : 'text-neutral-900'}`}>
+                    <div className={`absolute top-4 left-4 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide ${theme.text}`}>
                       {post.category}
                     </div>
                   </div>
@@ -72,7 +68,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
                     <div className="text-xs font-medium opacity-50 mb-2">
                       {formatDate(post.date)}
                     </div>
-                    <h4 className={`text-xl font-bold mb-2 group-hover:opacity-80 transition-opacity ${isAlba ? 'text-slate-900' : 'text-neutral-900'}`}>
+                    <h4 className={`text-xl font-bold mb-2 group-hover:opacity-80 transition-opacity ${theme.text}`}>
                       {post.title}
                     </h4>
                     <p className="text-sm opacity-60 line-clamp-2">
@@ -85,7 +81,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, activeClub }) =
 
             {/* Mobile-only "View All" button at the bottom */}
             <div className="mt-auto md:hidden">
-              <AnimatedLink to={`/${activeClub}/news`} className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-slate-100 ${isAlba ? 'text-cyan-700' : 'text-yellow-700'}`}>
+              <AnimatedLink to={`/${config.slug.current}/news`} className={`flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm bg-slate-100 text-${theme.primary}`}>
                 Vedi Tutte le News <ArrowRight size={16} />
               </AnimatedLink>
             </div>

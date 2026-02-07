@@ -2,8 +2,9 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ClubContext, ClubType } from '../types';
-import { Quote, Activity, ChevronRight } from 'lucide-react';
+import { ClubContext } from '../types';
+import { Quote, Activity } from 'lucide-react';
+import { getThemeBySlug } from '@/utils/theme';
 
 interface ClubCarouselProps {
     clubs: ClubContext[];
@@ -16,9 +17,10 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
     const currentClub = clubs[currentIndex];
-    // Determine style based on the *current* club being viewed
-    const isAlba = currentClub.name.toLowerCase().includes('alba');
-    const accentColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
+    if (!currentClub) return null;
+
+    const theme = getThemeBySlug(currentClub.config.slug.current);
+    const accentColor = `text-${theme.primary}`;
 
     // --- TOUCH HANDLERS ---
     const minSwipeDistance = 50;
@@ -49,6 +51,7 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
 
     if (!currentClub || !currentClub.about) return null;
     const { about: aboutData } = currentClub;
+    const displayImage = aboutData.imageUrl || '/utils/default-user.avif';
 
     return (
         <div
@@ -63,14 +66,14 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
                 <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center mb-12">
                     {/* Image */}
                     <div className="order-2 md:order-1 relative group">
-                        <div className={`absolute -inset-4 rounded-[2rem] opacity-20 transform -rotate-3 transition-transform group-hover:-rotate-2 duration-700 ${isAlba ? 'bg-cyan-600' : 'bg-yellow-600'}`} />
-                        <div className={`absolute -inset-4 rounded-[2rem] opacity-20 transform rotate-2 transition-transform group-hover:rotate-1 duration-700 ${isAlba ? 'bg-slate-800' : 'bg-slate-800'}`} />
+                        <div className={`absolute -inset-4 rounded-[2rem] opacity-20 transform -rotate-3 transition-transform group-hover:-rotate-2 duration-700 bg-${theme.primary}`} />
+                        <div className={`absolute -inset-4 rounded-[2rem] opacity-20 transform rotate-2 transition-transform group-hover:rotate-1 duration-700 bg-slate-800`} />
                         <img
-                            src={aboutData.imageUrl}
+                            src={displayImage}
                             alt={aboutData.title}
                             className="relative rounded-2xl shadow-2xl w-full object-cover h-[450px] md:h-[550px]"
                         />
-                        <div className={`absolute -bottom-6 -right-6 w-24 h-24 rounded-full ${isAlba ? 'bg-cyan-500' : 'bg-yellow-500'} flex items-center justify-center text-white shadow-lg animate-bounce-slow transition-colors duration-500`}>
+                        <div className={`absolute -bottom-6 -right-6 w-24 h-24 rounded-full bg-${theme.secondary} flex items-center justify-center text-white shadow-lg animate-bounce-slow transition-colors duration-500`}>
                             <Quote size={32} fill="currentColor" className="text-white/90" />
                         </div>
                     </div>
@@ -79,7 +82,7 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
                     <div className="order-1 md:order-2 space-y-8">
                         <div>
                             <div className="flex items-center gap-3 mb-4">
-                                <span className={`h-px w-8 ${isAlba ? 'bg-cyan-600' : 'bg-yellow-600'} transition-colors duration-500`}></span>
+                                <span className={`h-px w-8 bg-${theme.primary} transition-colors duration-500`}></span>
                                 <span className={`text-sm font-bold tracking-widest uppercase ${accentColor} transition-colors duration-500`}>
                                     Who We Are
                                 </span>
@@ -95,11 +98,11 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
                         {/* Stats */}
                         <div className="flex gap-8 pt-4">
                             <div>
-                                <span className={`block text-3xl font-bold ${isAlba ? 'text-cyan-900' : 'text-yellow-900'} transition-colors duration-500`}>{currentClub.athletes?.length || 0}+</span>
+                                <span className={`block text-3xl font-bold text-${theme.primary} transition-colors duration-500`}>{currentClub.athletes?.length || 0}+</span>
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">Athletes</span>
                             </div>
                             <div>
-                                <span className={`block text-3xl font-bold ${isAlba ? 'text-cyan-900' : 'text-yellow-900'} transition-colors duration-500`}>100%</span>
+                                <span className={`block text-3xl font-bold text-${theme.primary} transition-colors duration-500`}>100%</span>
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">Passion</span>
                             </div>
                         </div>
@@ -127,13 +130,13 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
                     {currentClub.name}
                 </div>
                 <Link
-                    href={`/${isAlba ? 'alba13' : 'ros6team'}`}
+                    href={`/${currentClub.config.slug.current}`}
                     className="block relative w-full h-[450px] rounded-[2rem] overflow-hidden shadow-xl transition-transform active:scale-95 my-4"
                 >
                     <img
-                        src={aboutData.imageUrl}
+                        src={displayImage}
                         alt={aboutData.title}
-                        className={`w-full h-full object-cover ${isAlba ? 'grayscale-[10%]' : 'sepia-[10%]'}`}
+                        className={`w-full h-full object-cover ${theme.cardFilter}`}
                     />
 
                     {/* Overlay Gradient */}
@@ -156,7 +159,7 @@ export const ClubCarousel: React.FC<ClubCarouselProps> = ({ clubs, currentIndex,
                         {clubs.map((_, index) => (
                             <div
                                 key={index}
-                                className={`h-2 rounded-full transition-all duration-300 ${currentIndex === index ? `w-8 ${isAlba ? 'bg-cyan-600' : 'bg-yellow-600'}` : 'w-2 bg-slate-200'}`}
+                                className={`h-2 rounded-full transition-all duration-300 ${currentIndex === index ? `w-8 bg-${theme.primary}` : 'w-2 bg-slate-200'}`}
                             />
                         ))}
                     </div>

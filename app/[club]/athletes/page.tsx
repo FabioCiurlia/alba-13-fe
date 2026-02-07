@@ -5,6 +5,7 @@ import { getClubContent } from '@/services/sanityService';
 import { ClubType, Athlete } from '@/types';
 import { Navbar } from '@/components/Navbar';
 import { ArrowLeft, Users } from 'lucide-react';
+import { getThemeBySlug } from '@/utils/theme';
 
 const VALID_CLUBS = ['alba13', 'ros6team'];
 
@@ -17,13 +18,16 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
 
     const activeClub = club as ClubType;
     const content = await getClubContent(activeClub);
-    const athletes = content?.athletes || [];
+    if (!content) {
+        notFound();
+    }
 
-    const isAlba = activeClub === 'alba13';
-    const themeColors = isAlba
-        ? 'bg-slate-50 text-slate-900'
-        : 'bg-neutral-50 text-neutral-900';
-    const accentColor = isAlba ? 'text-cyan-600' : 'text-yellow-600';
+
+    const athletes = content.athletes || [];
+    const config = content.config;
+
+    const theme = getThemeBySlug(config.slug.current);
+    const accentColor = `text-${theme.primary}`;
 
     // Group athletes by category
     const groupedAthletes = athletes.reduce((acc, athlete) => {
@@ -36,11 +40,11 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
     }, {} as Record<string, Athlete[]>);
 
     return (
-        <div className={`min-h-screen ${themeColors}`}>
+        <div className={`min-h-screen ${theme.bg}`}>
             <Navbar />
 
             {/* Fixed Sub-Navbar */}
-            <div className={`fixed top-16 left-0 right-0 z-40 border-b backdrop-blur-md ${isAlba ? 'bg-slate-50/90 border-slate-200' : 'bg-neutral-50/90 border-neutral-200'}`}>
+            <div className={`fixed top-16 left-0 right-0 z-40 border-b backdrop-blur-md ${theme.bg}/90 border-slate-200`}>
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
                     <Link
                         href={`/${activeClub}`}
@@ -58,7 +62,7 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
             <div className="container mx-auto px-6 pt-40 pb-12">
 
                 <div className="flex items-center gap-3 mb-12">
-                    <div className={`p-3 rounded-full ${isAlba ? 'bg-cyan-100 text-cyan-600' : 'bg-yellow-100 text-yellow-600'}`}>
+                    <div className={`p-3 rounded-full bg-${theme.light} text-${theme.primary}`}>
                         <Users size={32} />
                     </div>
                     <div>
@@ -70,7 +74,7 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
                 <div className="space-y-16">
                     {Object.entries(groupedAthletes).map(([category, categoryAthletes]: [string, Athlete[]]) => (
                         <div key={category}>
-                            <h2 className={`text-2xl pl-4 font-bold mb-6 border-l-4 ${isAlba ? 'border-cyan-500' : 'border-rose-500'}`}>
+                            <h2 className={`text-2xl pl-4 font-bold mb-6 border-l-4 border-${theme.primary}`}>
                                 {category}
                             </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

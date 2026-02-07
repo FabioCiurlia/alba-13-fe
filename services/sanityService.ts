@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client';
-import { ClubContext, ClubType, BlogPost } from '../types';
+import { ClubContext, ClubType, BlogPost, ClubConfig } from '../types';
+import { getThemeBySlug } from '../utils/theme';
 
 // Initialize Sanity Client
 export const client = createClient({
@@ -25,21 +26,23 @@ export const getClubContent = async (type: ClubType): Promise<ClubContext | null
 
   const teamName = TEAM_NAME_MAP[type];
 
-  // GROQ Query to fetch Club data and expand references (Athletes, Blog Posts)
-  // We rename fields (e.g., image.asset->url as imageUrl) to match our frontend interfaces.
+  // GROQ Query - Simplified, colors and theme are handled locally
   const query = `*[_type == "club" && slug.current == $slug][0]{
     "id": _id,
     name,
+    "slug": slug,
     hero {
       title,
       subtitle,
       description,
-      "imageUrl": image.asset->url
+      "imageUrl": image.asset->url,
+      image
     },
     about {
       title,
       description,
-      "imageUrl": image.asset->url
+      "imageUrl": image.asset->url,
+      image
     },
 
     "athletes": *[_type == "athlete" && team == $teamName] | order(order asc) {
@@ -51,13 +54,13 @@ export const getClubContent = async (type: ClubType): Promise<ClubContext | null
     },
     "blogPosts": *[_type == "blogPost" && team == $teamName] {
       "id": _id,
-      "id": _id,
       title,
       subtitle,
       slug,
       date,
       category,
       author,
+      image,
       "imageUrl": image.asset->url,
       main,
       durata,
@@ -68,13 +71,37 @@ export const getClubContent = async (type: ClubType): Promise<ClubContext | null
 
   try {
     console.log(`Fetching Sanity data for slug: ${slug} and team: ${teamName}...`);
-    const data = await client.fetch<ClubContext>(query, { slug, teamName });
+    const data = await client.fetch<any>(query, { slug, teamName });
 
     if (data) {
-      console.log("Data fetched successfully:", data);
-      return data;
+      // Reconstruct config using local theme
+      const localTheme = getThemeBySlug(type);
+      const config: ClubConfig = {
+        id: data.id,
+        name: data.name,
+        slug: data.slug,
+        colors: {
+          primary: localTheme.primary,
+          secondary: localTheme.secondary,
+          light: localTheme.light,
+          lighter: localTheme.lighter,
+        },
+        theme: {
+          bg: localTheme.bg,
+          text: localTheme.text,
+          selection: localTheme.selection,
+          gradient: localTheme.gradient,
+          cardFilter: localTheme.cardFilter,
+          cardOverlay: localTheme.cardOverlay,
+        },
+        navbar: localTheme.navbar,
+        footer: localTheme.footer,
+      };
+
+      console.log("Data fetched successfully with local theme.");
+      return { ...data, config };
     } else {
-      console.warn(`Sanity fetch returned no data for slug: ${slug}. Check if document exists and is published.`);
+      console.warn(`Sanity fetch returned no data for slug: ${slug}.`);
       return null;
     }
   } catch (error) {
@@ -93,6 +120,7 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
     date,
     category,
     author,
+    image,
     "imageUrl": image.asset->url,
     "team": team,
     durata,

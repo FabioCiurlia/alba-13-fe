@@ -3,16 +3,21 @@
 import React, { useState } from 'react';
 import { Menu, X, Calendar } from 'lucide-react';
 import { AnimatedLink } from './AnimatedLink';
-import { useClub } from './ClubProvider';
+import { useParams } from 'next/navigation';
+import { getThemeBySlug } from '../utils/theme';
+import Link from 'next/link';
 
 export const Navbar: React.FC = () => {
-  const { activeClub, setActiveClub } = useClub();
+  const params = useParams();
+  const slug = params?.club as string || 'alba13';
+  const config = getThemeBySlug(slug);
+
   const [isOpen, setIsOpen] = useState(false);
-  const isAlba = activeClub === 'alba13';
+  const activeClub = slug;
 
   // Theme colors for the drawer
-  const drawerBg = isAlba ? 'bg-slate-900' : 'bg-neutral-900';
-  const itemHover = isAlba ? 'hover:text-cyan-400' : 'hover:text-yellow-400';
+  const drawerBg = config.navbar.drawerBg;
+  const itemHover = `hover:text-${config.secondary}`;
 
   const clubPrefix = `/${activeClub}`;
 
@@ -20,10 +25,7 @@ export const Navbar: React.FC = () => {
     <>
       <nav className={`
         fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b
-        ${isAlba
-          ? 'bg-slate-900/90 border-slate-800 text-white'
-          : 'bg-neutral-900/90 border-neutral-800 text-white'}
-        backdrop-blur-md
+        ${config.navbar.bg} ${config.navbar.border} ${config.navbar.text}
         `}>
         <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
 
@@ -38,25 +40,25 @@ export const Navbar: React.FC = () => {
 
           {/* Right: Elegant Switch */}
           <div className="hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:static md:transform-none md:flex md:ml-auto z-20">
-            <div className="hidden bg-black/20 p-1 rounded-full flex items-center backdrop-blur-sm border border-white/10">
-              <button
-                onClick={() => setActiveClub('alba13')}
+            <div className="bg-black/20 p-1 rounded-full flex items-center backdrop-blur-sm border border-white/10">
+              <Link
+                href="/alba13"
                 className={`
                             px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300
-                            ${isAlba ? 'bg-cyan-600 text-white shadow-lg' : 'text-white/50 hover:text-white'}
+                            ${activeClub === 'alba13' ? 'bg-cyan-600 text-white shadow-lg' : 'text-white/50 hover:text-white'}
                         `}
               >
                 ALBA 13
-              </button>
-              <button
-                onClick={() => setActiveClub('ros6team')}
+              </Link>
+              <Link
+                href="/ros6team"
                 className={`
                             px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300
-                            ${!isAlba ? 'bg-yellow-600 text-white shadow-lg' : 'text-white/50 hover:text-white'}
+                            ${activeClub === 'ros6team' ? 'bg-yellow-600 text-white shadow-lg' : 'text-white/50 hover:text-white'}
                         `}
               >
                 ROS 6 TEAM
-              </button>
+              </Link>
             </div>
           </div>
 

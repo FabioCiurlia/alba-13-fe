@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ClubContext } from '../types';
 import { ClubCarousel } from './ClubCarousel';
+import { getThemeBySlug } from '@/utils/theme';
 
 interface AboutSectionProps {
   clubs: ClubContext[];
@@ -15,7 +16,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ clubs, initialIndex 
 
   if (!currentClub) return null;
 
-  const isAlba = currentClub.name.toLowerCase().includes('alba');
+  const theme = getThemeBySlug(currentClub.config.slug.current);
 
   return (
     <section className="relative py-10 md:py-32 overflow-hidden">
@@ -28,8 +29,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ clubs, initialIndex 
             backgroundSize: '32px 32px'
           }}
         />
-        <div className={`absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gradient-to-b ${isAlba ? 'from-cyan-100/50 via-cyan-50/30 to-transparent' : 'from-yellow-100/50 via-yellow-50/30 to-transparent'} rounded-full blur-3xl opacity-60 transform translate-x-1/4 md:translate-x-1/3 -translate-y-1/4 pointer-events-none transition-all duration-1000`} />
-        <div className={`absolute bottom-0 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-gradient-to-t ${isAlba ? 'from-cyan-100/50 via-cyan-50/30 to-transparent' : 'from-yellow-100/50 via-yellow-50/30 to-transparent'} rounded-full blur-3xl opacity-40 transform -translate-x-1/4 md:-translate-x-1/3 translate-y-1/4 pointer-events-none transition-all duration-1000`} />
+        <div className={`absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gradient-to-b ${theme.gradient.from} ${theme.gradient.via} ${theme.gradient.to} rounded-full blur-3xl opacity-60 transform translate-x-1/4 md:translate-x-1/3 -translate-y-1/4 pointer-events-none transition-all duration-1000`} />
+        <div className={`absolute bottom-0 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-gradient-to-t ${theme.gradient.from} ${theme.gradient.via} ${theme.gradient.to} rounded-full blur-3xl opacity-40 transform -translate-x-1/4 md:-translate-x-1/3 translate-y-1/4 pointer-events-none transition-all duration-1000`} />
       </div>
 
       <div className="container mx-auto px-4 md:px-10 relative z-10">
