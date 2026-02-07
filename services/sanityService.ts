@@ -79,23 +79,7 @@ export const getClubContent = async (type: ClubType): Promise<ClubContext | null
       const config: ClubConfig = {
         id: data.id,
         name: data.name,
-        slug: data.slug,
-        colors: {
-          primary: localTheme.primary,
-          secondary: localTheme.secondary,
-          light: localTheme.light,
-          lighter: localTheme.lighter,
-        },
-        theme: {
-          bg: localTheme.bg,
-          text: localTheme.text,
-          selection: localTheme.selection,
-          gradient: localTheme.gradient,
-          cardFilter: localTheme.cardFilter,
-          cardOverlay: localTheme.cardOverlay,
-        },
-        navbar: localTheme.navbar,
-        footer: localTheme.footer,
+        slug: data.slug
       };
 
       console.log("Data fetched successfully with local theme.");

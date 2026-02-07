@@ -12,6 +12,7 @@ export interface HeroData {
   imageUrl: string;
   image?: any;
   description: string;
+  slug: { current: string };
 }
 
 export interface AboutData {

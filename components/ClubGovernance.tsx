@@ -35,7 +35,7 @@ export const ClubGovernance: React.FC<ClubGovernanceProps> = ({ config }) => {
                     {/* Left Images */}
                     <div className="hidden lg:flex flex-col gap-16">
                         <div className="relative group">
-                            <div className={`absolute -right-3 -bottom-3 w-full h-full bg-${theme.secondary} rounded-[2rem] opacity-40 transition-transform group-hover:scale-105`} />
+                            <div className={`absolute -right-3 -bottom-3 w-full h-full bg-${theme.primary} rounded-[2rem] opacity-40 transition-transform group-hover:scale-105`} />
                             <div className="relative w-64 h-48 overflow-hidden rounded-[2rem] bg-slate-100 border-b-4 border-r-4 border-slate-200">
                                 <img src="https://res.cloudinary.com/drxidw3hj/image/upload/v1770396936/eco-race-spartan-kids_lpoy0y.png" alt="Running" className="w-full h-full object-cover" />
                             </div>
@@ -108,10 +108,10 @@ export const ClubGovernance: React.FC<ClubGovernanceProps> = ({ config }) => {
                             <div className="absolute inset-2 border border-slate-200 rounded-full" />
 
                             {/* Interactive Lime/Yellow Dots */}
-                            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-${config.colors.primary} shadow-[0_0_10px_rgba(0,0,0,0.1)]`} />
-                            <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-${config.colors.primary} shadow-[0_0_10px_rgba(0,0,0,0.1)]`} />
+                            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-${theme.primary} shadow-[0_0_10px_rgba(0,0,0,0.1)]`} />
+                            <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-${theme.primary} shadow-[0_0_10px_rgba(0,0,0,0.1)]`} />
 
-                            <span className={`relative text-md font-black italic tracking-widest uppercase font-gopron ${config.text}`}>
+                            <span className={`relative text-md font-black italic tracking-widest uppercase font-gopron ${theme.text}`}>
                                 MEMBERSHIP
                             </span>
                         </button>

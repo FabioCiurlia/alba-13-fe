@@ -21,7 +21,7 @@ const getCategoryIcon = (category: string) => {
 };
 
 interface BentoCardProps {
-  post: BlogPost;
+  post: BlogPost | HeroData;
   className?: string;
   theme: any;
   isMain?: boolean;
