@@ -3,6 +3,7 @@ import { ClubConfig, HeroData, BlogPost } from '../types';
 import { ChevronRight, Zap, MapPin, Activity, Coffee, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { getThemeBySlug } from '@/utils/theme';
+import { FIXED_EVENTS } from '../data/events';
 
 interface HeroProps {
   data?: HeroData;
@@ -21,7 +22,7 @@ const getCategoryIcon = (category: string) => {
 };
 
 interface BentoCardProps {
-  post: BlogPost | HeroData;
+  post: any;
   className?: string;
   theme: any;
   isMain?: boolean;
@@ -37,6 +38,9 @@ const BentoCard: React.FC<BentoCardProps> = ({ post, className = '', theme, isMa
     ? ({ children }: { children: React.ReactNode }) => <Link href={`/${post.slug.current}/blog/${slug}`} className={`group block w-full h-full relative overflow-hidden rounded-[1rem] shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${className}`}>{children}</Link>
     : ({ children }: { children: React.ReactNode }) => <div className={`block h-full relative overflow-hidden rounded-[1rem] shadow-xl ${className}`}>{children}</div>;
 
+  // Determine the primary hover color based on the theme to avoid JIT issues with dynamic classes
+  const hoverBgClass = theme.primary === 'cyan-600' ? 'group-hover:bg-cyan-600' : 'group-hover:bg-yellow-600';
+
   return (
     <CardWrapper>
       {/* Background Image */}
@@ -47,34 +51,18 @@ const BentoCard: React.FC<BentoCardProps> = ({ post, className = '', theme, isMa
       />
 
       {/* Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-20 group-hover:opacity-0 transition-opacity" />
 
-      {/* Background Text Accent (The "Big Number" feel) */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 select-none pointer-events-none transition-transform duration-700 group-hover:scale-110 opacity-10">
-        <span
-          className="text-[120px] md:text-[200px] font-black uppercase italic leading-none text-white tracking-tighter"
-          style={{ WebkitTextStroke: '2px white', color: 'transparent' }}
-        >
-          {category?.charAt(0) || 'A'}
-        </span>
-      </div>
+
 
       {/* Content */}
-      <div className="absolute inset-0 p-8 md:p-4 flex flex-col justify-between z-10">
-        <div className="flex justify-between items-start">
-          <div className="px-4 py-1.5 rounded-full backdrop-blur-md bg-white/10 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] md:text-xs shadow-sm flex items-center gap-2">
-            {getCategoryIcon(category || '')} {category || 'In Copertina'}
-          </div>
-        </div>
-
+      <div className="absolute inset-0 p-4 md:p-4 flex flex-col justify-between z-10">
+        <div></div>
         <div>
-          <h3 className={`${isMain ? 'text-3xl md:text-5xl lg:text-6xl' : 'text-xl md:text-2xl'} font-black text-white italic uppercase font-gopron leading-[0.9] tracking-tight mb-6 drop-shadow-2xl`}>
-            {post.title}
-          </h3>
-
           <div className="flex items-center gap-4">
-            <div className={`justify-between w-full py-2 px-3 rounded-xl bg-white text-black font-bold text-sm flex items-center gap-2 transform transition-all group-hover:bg-${theme.primary} group-hover:scale-105 group-hover:shadow-lg transition-colors`}>
-              Leggi Ora <ArrowRight size={18} />
+            <div className={`justify-between w-full py-2 px-3 rounded-xl bg-white text-black font-bold text-sm flex items-center gap-2 transform transition-all transition-colors ${hoverBgClass} group-hover:shadow-lg transition-colors`}>
+              <span className="group-hover:text-white transition-colors">Leggi Ora</span>
+              <ArrowRight size={18} className="group-hover:text-white transition-colors" />
             </div>
           </div>
         </div>
@@ -88,22 +76,24 @@ export const Hero: React.FC<HeroProps> = ({ data, mainPost, recentPosts = [], co
 
   const theme = getThemeBySlug(config.slug.current);
 
-  // Prepare all blocks (Main + 3 Recent)
+  // Prepare all blocks (Main + Fixed Events)
+  // Slot 0 is always the Featured/Main post
+  // Slots 1-3 are populated with Fixed Events if available, otherwise Recent Posts
   const blocks = [
     mainPost || { ...data, category: 'Main' },
-    ...recentPosts.slice(0, 3)
-  ];
+    ...FIXED_EVENTS,
+    ...recentPosts
+  ].slice(0, 4);
 
   return (
-    <section className={`${theme.bg} py-12 md:py-24`}>
-      <div className="container mx-auto px-6">
+    <section className={`${theme.bg} pb-12 overflow-hidden`}>
+      {/* Search/Desktop Version (Bento Grid) */}
+      <div className="container mx-auto px-6 hidden md:block md:pt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 h-auto lg:h-[800px]">
 
           {/* Main Card (Large) */}
           {blocks[0] && (
-            <div className="lg:col-span-2 lg:row-span-2 h-[500px] lg:h-full">
-              {/* Passing a simple index for button coloring inside the sub-component if needed, 
-                   but let's define colors here or pass theme */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-2 h-[500px] lg:h-full">
               <BentoCard post={blocks[0]} theme={theme} isMain={true} />
             </div>
           )}
@@ -128,7 +118,46 @@ export const Hero: React.FC<HeroProps> = ({ data, mainPost, recentPosts = [], co
               <BentoCard post={blocks[3]} theme={theme} />
             </div>
           )}
+        </div>
+      </div>
 
+      {/* Mobile Version (Full Screen Background + Slider) */}
+      <div className="md:hidden relative h-[90vh] w-full flex flex-col justify-between">
+        {/* Full Screen Background */}
+        <div className='flex justify-between'>
+          <div className="absolute inset-0 z-0 bg-white">
+
+            <img
+              src='https://res.cloudinary.com/drxidw3hj/image/upload/t_qwebp/v1770478108/athletic-man-participating-cross-country_phvsct.webp'
+              alt="Hero Background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/40 to-transparent" />
+          </div>
+          <div className="flex flex-row z-10 w-full mx-6 mt-16 pb-8 text-white z-99 gap-4 align-center">
+            <div className=""><img src="https://res.cloudinary.com/drxidw3hj/image/upload/t_noBack/v1770211717/alba13-logo.png" width={128} height={128} alt="" /></div>
+            <div className='text-5xl font-bold font-gopron'>Alba 13 <br /> Running Club</div>
+          </div>
+        </div>
+
+
+        {/* Floating Content/Slider */}
+        <div className="relative z-10 w-full pb-8">
+          <div className="px-8 mb-2">
+            <h6 className="text-white font-bold text-2xl relative inline-block tracking-wide">
+              I Nostri Eventi
+            </h6>
+
+          </div>
+
+          {/* Horizontal Slider */}
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-6 no-scrollbar pb-0">
+            {blocks.map((block: any, idx: number) => (
+              <div key={idx} className="flex-none w-[280px] h-[360px] snap-center">
+                <BentoCard post={block} theme={theme} className="h-full" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

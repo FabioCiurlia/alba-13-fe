@@ -5,7 +5,6 @@ import { Menu, X, Calendar } from 'lucide-react';
 import { AnimatedLink } from './AnimatedLink';
 import { useParams } from 'next/navigation';
 import { getThemeBySlug } from '../utils/theme';
-import Link from 'next/link';
 
 export const Navbar: React.FC = () => {
   const params = useParams();
@@ -30,36 +29,17 @@ export const Navbar: React.FC = () => {
         <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
 
           {/* Center: Desktop Nav */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-8 text-sm font-medium opacity-80 z-20">
-            <AnimatedLink to={clubPrefix} className="hover:opacity-100 transition-opacity uppercase">Home</AnimatedLink>
-            <AnimatedLink to={`${clubPrefix}/training`} className="hover:opacity-100 transition-opacity uppercase">Allenamenti</AnimatedLink>
-            <AnimatedLink to={`${clubPrefix}/athletes`} className="hover:opacity-100 transition-opacity uppercase">Atleti</AnimatedLink>
-            <AnimatedLink to={`${clubPrefix}/news`} className="hover:opacity-100 transition-opacity uppercase">Eventi</AnimatedLink>
-            <AnimatedLink to={`${clubPrefix}/calendar`} className="hover:opacity-100 transition-opacity uppercase">Calendario</AnimatedLink>
+          <div className="absolute hidden md:flex items-center gap-8 text-sm font-medium z-20">
+            <AnimatedLink to={clubPrefix} className="opacity-80 hover:opacity-100 hover:text-white transition-opacity uppercase">Home</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/news`} className="opacity-80 hover:opacity-100 hover:text-white transition-opacity uppercase">Eventi</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/athletes`} className="opacity-80 hover:opacity-100 hover:text-white transition-opacity uppercase">Atleti</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/calendar`} className="opacity-80 hover:opacity-100 hover:text-white transition-opacity uppercase">Calendario</AnimatedLink>
           </div>
 
-          {/* Right: Elegant Switch */}
-          <div className="hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:static md:transform-none md:flex md:ml-auto z-20">
-            <div className="bg-black/20 p-1 rounded-full flex items-center backdrop-blur-sm border border-white/10">
-              <Link
-                href="/alba13"
-                className={`
-                            px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300
-                            ${activeClub === 'alba13' ? 'bg-cyan-600 text-white shadow-lg' : 'text-white/50 hover:text-white'}
-                        `}
-              >
-                ALBA 13
-              </Link>
-              <Link
-                href="/ros6team"
-                className={`
-                            px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300
-                            ${activeClub === 'ros6team' ? 'bg-yellow-600 text-white shadow-lg' : 'text-white/50 hover:text-white'}
-                        `}
-              >
-                ROS 6 TEAM
-              </Link>
-            </div>
+          {/* Right: Social Links */}
+          <div className="hidden md:flex items-center gap-8 z-20 ml-auto  text-sm font-medium">
+            <AnimatedLink to={clubPrefix} className="opacity-80 hover:opacity-100 hover:text-white transition-opacity uppercase">Facebook</AnimatedLink>
+            <AnimatedLink to={`${clubPrefix}/training`} className="opacity-80 hover:opacity-100 transition-opacity uppercase">Strava</AnimatedLink>
           </div>
 
           {/* Mobile Menu Toggle & Calendar */}

@@ -9,9 +9,8 @@ import { BlogSection } from '@/components/BlogSection';
 import { CompetitionsSection } from '@/components/CompetitionsSection';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
-import { ClubGovernance } from '@/components/ClubGovernance';
 import { SponsorSection } from '@/components/SponsorSection';
-import { ExecutiveBoard } from '@/components/ExecutiveBoard';
+import { getThemeBySlug } from '@/utils/theme';
 
 // Define valid clubs
 const VALID_CLUBS = ['alba13', 'ros6team'];
@@ -42,6 +41,7 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
     }
 
     const config = data.config;
+    const theme = getThemeBySlug(config.slug.current);
 
     // Prepare Posts Logic
     const allPosts = data?.blogPosts || [];
@@ -67,7 +67,45 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
     })();
 
     return (
-        <main>
+        <main className={`${theme.bg} pt-[64px]`}>
+            <section className={`hidden md:block relative py-0 md:pt-6 ${theme.bg}`}>
+                <nav className={`container mx-auto md:px-6 flex items-start justify-between font-sans ${theme.bg}`}>
+                    <div className="max-w-[150px]">
+                        <h1 className={`text-2xl font-bold leading-tight tracking-tighter uppercase text-${theme.primary}`}>
+                            Alba 13 Running Club
+                        </h1>
+                    </div>
+
+                    <div className="flex flex-1 justify-around font-bold tracking-widest uppercase text-sm font-medium">
+
+                        <div className="flex flex-col gap-2">
+                            <a href="#" className="hover:text-orange-500">STORICO EVENTI</a>
+                            <a href="#" className="hover:text-orange-500">About Us</a>
+                            <a href="#" className="hover:text-orange-500">Contact</a>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <a href="#" className="hover:text-orange-500">Events</a>
+                            <a href="#" className="hover:text-orange-500">Articles</a>
+                            <a href="#" className="hover:text-gray-600">Faq</a>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <a href="#" className="hover:text-gray-600">Race Info</a>
+                            <a href="#" className="hover:text-gray-600">Official Partner</a>
+                            <a href="#" className="hover:text-gray-600">Volunteer</a>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <a href="#" className="hover:text-gray-600">Media Section</a>
+                            <a href="#" className="hover:text-gray-600">Press Releases</a>
+                            <a href="#" className="hover:text-gray-600">Gallery</a>
+                        </div>
+
+                    </div>
+                </nav>
+            </section>
+
             <Hero
                 data={data.hero}
                 mainPost={mainPost}
@@ -77,8 +115,6 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
 
             <div className="animate-fade-in-up">
                 {/* About Section - All Clubs Carousel */}
-                <ClubGovernance config={config} />
-                <ExecutiveBoard config={config} />
                 {/* Athletes Section - Only for active club */}
                 <div className="mt-12 md:mt-24">
                     <AthleteList
