@@ -37,7 +37,7 @@ export interface BlogPost {
   title: string;
   subtitle?: string;
   date: string;
-  category: 'News' | 'Event' | 'Lifestyle';
+  category: 'Training' | 'News' | 'Event' | 'Lifestyle';
   imageUrl?: string;
   image?: any;
   slug: { current: string };
