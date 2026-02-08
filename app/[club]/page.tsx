@@ -10,7 +10,10 @@ import { CompetitionsSection } from '@/components/CompetitionsSection';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { SponsorSection } from '@/components/SponsorSection';
+import { PricingSection } from '@/components/PricingSection';
 import { getThemeBySlug } from '@/utils/theme';
+import { FIXED_EVENTS } from '@/data/events';
+
 
 // Define valid clubs
 const VALID_CLUBS = ['alba13', 'ros6team'];
@@ -79,8 +82,8 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
                     <div className="flex flex-1 justify-around font-bold tracking-widest uppercase text-sm font-medium">
 
                         <div className="flex flex-col gap-2">
+                            <a href="#" className="hover:text-orange-500 text-lg">TRAIL DEL CROCEFISSO</a>
                             <a href="#" className="hover:text-orange-500">STORICO EVENTI</a>
-                            <a href="#" className="hover:text-orange-500">About Us</a>
                             <a href="#" className="hover:text-orange-500">Contact</a>
                         </div>
 
@@ -104,15 +107,19 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
 
                     </div>
                 </nav>
-            </section>
 
+            </section>
+            {/* Hero Section 
+            
             <Hero
                 data={data.hero}
                 mainPost={mainPost}
                 recentPosts={recentPosts}
                 config={config}
             />
+            */}
 
+            <PricingSection events={FIXED_EVENTS} theme={theme} />
             <div className="animate-fade-in-up">
                 {/* About Section - All Clubs Carousel */}
                 {/* Athletes Section - Only for active club */}

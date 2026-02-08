@@ -49,6 +49,18 @@ export interface BlogPost {
   durata?: string;
   level?: 'Leggero' | 'Intenso' | 'Al Massimo';
   distanza?: string;
+  type?: 'Trail' | 'Running';
+  badges?: Badge[];
+  bullet?: {
+    levelOne?: string[];
+    levelTwo?: string[];
+    gadget?: string[];
+  };
+}
+
+export interface Badge {
+  image: string;
+  description: string;
 }
 
 export interface ClubContext {
