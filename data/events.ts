@@ -36,21 +36,31 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         },
     },
     {
-        id: 'fixed-5k',
-        title: 'Spartan Kids 5K',
-        category: 'Training',
-        imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2000&auto=format&fit=crop',
+        id: 'vertical-sprint',
+        title: 'Vertical Sprint',
+        category: 'Event',
+        imageUrl: 'https://www.cronogare.it/backoffice/Core/imgupload/1732033097logo.JPG',
         slug: { current: 'spartan-kids-5k' },
         date: '2026-07-10',
         author: 'Staff',
+        bullet: {
+            levelOne: ['🏆 Campionato Spartan'],
+            levelTwo: [],
+            gadget: ['🏅 Medaglia']
+        },
     },
     {
         id: 'StraTaurisano',
         title: 'StraTaurisano',
-        category: '10km',
-        imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2000&auto=format&fit=crop',
+        category: 'Event',
+        imageUrl: 'https://www.corrieresalentino.it/wp-content/uploads/2025/11/strataurisano.jpeg',
         slug: { current: 'spartan-kids-5k' },
         date: '2026-11-02',
         author: 'Staff',
+        bullet: {
+            levelOne: ['🏆 Campionato Spartan'],
+            levelTwo: [],
+            gadget: ['🏅 Medaglia']
+        },
     }
 ];

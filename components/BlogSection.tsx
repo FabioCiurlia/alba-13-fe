@@ -44,7 +44,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, config }) => {
 
           {/* General Blog Grid (Right Side) */}
           <div className="lg:w-2/3 flex flex-col h-full">
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="hidden md:block md:grid md:grid-cols-3 gap-8 mb-8">
               {otherPosts.map((post) => (
                 <AnimatedLink key={post.id} to={`/${config.slug.current}/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
                   <div className="relative overflow-hidden rounded-2xl mb-4 aspect-[16/10] bg-slate-100">
@@ -68,6 +68,22 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, config }) => {
                     <div className="text-xs font-medium opacity-50 mb-2">
                       {formatDate(post.date)}
                     </div>
+                    <h4 className={`text-xl font-bold mb-2 group-hover:opacity-80 transition-opacity ${theme.text}`}>
+                      {post.title}
+                    </h4>
+                    <p className="text-sm opacity-60 line-clamp-2">
+                      {post.subtitle}
+                    </p>
+                  </div>
+                </AnimatedLink>
+              ))}
+            </div>
+
+            <div className="md:hidden grid sm:grid-cols-1 gap-8 mb-8">
+              {otherPosts.map((post) => (
+                <AnimatedLink key={post.id} to={`/${config.slug.current}/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
+                  <div className={`pl-4 flex-1 border-l-2 transition-colors border-transparent ${cardHoverBorder}`}>
+
                     <h4 className={`text-xl font-bold mb-2 group-hover:opacity-80 transition-opacity ${theme.text}`}>
                       {post.title}
                     </h4>

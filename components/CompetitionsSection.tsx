@@ -58,17 +58,16 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = () => {
                             Prossimi Appuntamenti
                         </span>
                         <h2 className={`text-4xl font-bold mt-2 ${theme.text}`}>
-                            Gare in Puglia
+                            Gare in Puglia questo mese
                         </h2>
-                        <p className="opacity-60 mt-2">Competizioni in programma questo mese nella nostra regione</p>
                     </div>
-                    <AnimatedLink to={`/${slug}/calendar`} className={`hidden md:flex items-center gap-2 text-sm font-semibold transition-colors hover:text-${theme.primary}`}>
+                    <AnimatedLink to={`/${slug}/calendar`} className={`hidden md:flex items-center gap-2 text-lg font-semibold transition-colors hover:text-${theme.primary}`}>
                         Vedi Calendario Completo <ArrowRight size={16} />
                     </AnimatedLink>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {competitions.slice(0, 4).map((comp) => (
+                    {competitions.map((comp) => (
                         <div key={comp.id} className={`group rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all ${cardBg}`}>
                             <div className="flex items-start justify-between mb-4">
                                 <div className={`p-2 rounded-lg ${accentBg} ${accentColor}`}>

@@ -18,12 +18,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ events, theme })
             }}
         >
             <div className="container mx-auto px-6">
-                <div className="text-center mb-16">
 
-                </div>
 
                 {/* Mobile: Horizontal Scroll | Desktop: Grid */}
-                <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 no-scrollbar snap-x snap-mandatory pb-8 ">
+                <div className="flex overflow-x-auto md:grid lg:grid-cols-4 md:grid-cols-2 gap-4 no-scrollbar snap-x snap-mandatory pb-8 ">
                     {events.map((event, index) => (
                         <div
                             key={event.id || index}
@@ -47,7 +45,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ events, theme })
                             </div>
 
                             {/* Header Image 4/3 */}
-                            <div className="aspect-[4/3] w-full overflow-hidden relative">
+                            <div className="aspect-[4/3] sm:aspect-[6/3] w-full overflow-hidden relative">
                                 <img
                                     src={event.imageUrl || 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2000&auto=format&fit=crop'}
                                     alt={event.title}
