@@ -10,9 +10,9 @@ import { CompetitionsSection } from '@/components/CompetitionsSection';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { SponsorSection } from '@/components/SponsorSection';
-import { PricingSection } from '@/components/PricingSection';
 import { getThemeBySlug } from '@/utils/theme';
 import { FIXED_EVENTS } from '@/data/events';
+import MainEvents from '@/components/MainEvents';
 
 
 // Define valid clubs
@@ -71,7 +71,8 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
 
     return (
         <main className={`${theme.bg} pt-[64px]`}>
-            <section className={`hidden md:block relative py-0 md:pt-6 ${theme.bg}`}>
+            {/*<section className={`hidden md:block relative py-0 md:pt-6 ${theme.bg}`}>
+                
                 <nav className={`container mx-auto md:px-6 flex items-start justify-between font-sans ${theme.bg}`}>
                     <div className="max-w-[150px]">
                         <h1 className={`text-2xl font-bold leading-tight tracking-tighter uppercase text-${theme.primary}`}>
@@ -109,7 +110,7 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
                 </nav>
 
             </section>
-            {/* Hero Section 
+             Hero Section 
             
             <Hero
                 data={data.hero}
@@ -118,8 +119,7 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
                 config={config}
             />
             */}
-
-            <PricingSection events={FIXED_EVENTS} theme={theme} />
+            <MainEvents />
             <div className="animate-fade-in-up">
                 {/* About Section - All Clubs Carousel */}
                 {/* Athletes Section - Only for active club */}

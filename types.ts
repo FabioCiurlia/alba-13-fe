@@ -49,13 +49,17 @@ export interface BlogPost {
   durata?: string;
   level?: 'Leggero' | 'Intenso' | 'Al Massimo';
   distanza?: string;
-  type?: 'Trail' | 'Running';
+  type?: 'Trail' | 'Running' | 'Spartan' | 'Vertical';
   badges?: Badge[];
   bullet?: {
     levelOne?: string[];
     levelTwo?: string[];
     gadget?: string[];
   };
+  place: string;
+  enabled: boolean;
+  link: string;
+  overlayColor: string;
 }
 
 export interface Badge {

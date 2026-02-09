@@ -82,7 +82,6 @@ export const CompetitionsSection: React.FC<CompetitionsSectionProps> = () => {
                                 <h3 className={`text-lg font-bold mb-1 line-clamp-2 hover:text-${theme.primary} transition-colors flex-1 pr-2`}>
                                     {comp.name}
                                 </h3>
-                                <ShareButton competition={comp} iconSize={16} />
                             </div>
                             {comp.subname && (
                                 <p className="text-sm opacity-60 mb-4 line-clamp-1">{comp.subname}</p>

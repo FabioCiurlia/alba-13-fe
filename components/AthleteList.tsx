@@ -17,17 +17,14 @@ export const AthleteList: React.FC<AthleteListProps> = ({ athletes, config }) =>
 
     return (
         <div className={`container mx-auto px-6`}>
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-6 pt-12 border-t border-slate-200">
+            {/* Section Header */}
+            <div className="flex justify-between items-end mb-1 px-2 md:px-0">
+                <div className="hidden md:block h-[2px] flex-grow mx-8 bg-slate-200 mb-3" />
                 <div>
-                    <span className={`text-lg font-bold tracking-[0.2em] uppercase ${accentColor} mb-2 block transition-colors duration-500 font-gopron`}>
-                        Il Team
-                    </span>
-                    <h2 className="text-2xl md:text-4xl font-gopron tracking-wider">
-                        Gli Atleti di {config.name}
-                    </h2>
+                    <p className="text-4xl font-black text-slate-900 italic tracking-tighter uppercase">Gli Atleti di <span className="text-cyan-600">Alba 13</span></p>
                 </div>
-
+            </div>
+            <div className='flex justify-end mb-6'>
                 <AnimatedLink
                     to={`/${config.slug.current}/athletes`}
                     className={`hidden md:flex items-center gap-2 text-lg font-semibold transition-colors hover:text-${theme.primary}`}
@@ -35,6 +32,7 @@ export const AthleteList: React.FC<AthleteListProps> = ({ athletes, config }) =>
                     Vedi Tutti <ArrowRight size={16} />
                 </AnimatedLink>
             </div>
+
 
             {/* Horizontal Scroll Carousel */}
             <div className="flex overflow-x-auto gap-2 pb-12 -mx-6 px-6 scrollbar-hide snap-x snap-mandatory pt-4">

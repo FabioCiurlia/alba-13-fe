@@ -64,7 +64,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, config }) => {
                     </div>
                   </div>
 
-                  <div className={`pl-4 flex-1 border-l-2 transition-colors border-transparent ${cardHoverBorder}`}>
+                  <div className={`md:pl-4 flex-1 border-l-2 transition-colors border-transparent ${cardHoverBorder}`}>
                     <div className="text-xs font-medium opacity-50 mb-2">
                       {formatDate(post.date)}
                     </div>
@@ -82,9 +82,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, config }) => {
             <div className="md:hidden grid sm:grid-cols-1 gap-8 mb-8">
               {otherPosts.map((post) => (
                 <AnimatedLink key={post.id} to={`/${config.slug.current}/blog/${post.slug?.current || ''}`} className="group flex flex-col h-full cursor-pointer">
-                  <div className={`pl-4 flex-1 border-l-2 transition-colors border-transparent ${cardHoverBorder}`}>
+                  <div className={`md:pl-4 flex-1 border-l-2 transition-colors border-transparent ${cardHoverBorder}`}>
 
-                    <h4 className={`text-xl font-bold mb-2 group-hover:opacity-80 transition-opacity ${theme.text}`}>
+                    <h4 className={`text-lg font-semibold mb-2 transition-opacity ${theme.text}`}>
                       {post.title}
                     </h4>
                     <p className="text-sm opacity-60 line-clamp-2">
