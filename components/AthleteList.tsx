@@ -16,7 +16,7 @@ export const AthleteList: React.FC<AthleteListProps> = ({ athletes, config }) =>
     const accentColor = `text-${theme.primary}`;
 
     return (
-        <div className={`container mx-auto px-6`}>
+        <section className={`container mx-auto px-6`}>
             {/* Section Header */}
             <div className="flex justify-between items-end mb-1 px-2 md:px-0">
                 <div className="hidden md:block h-[2px] flex-grow mx-8 bg-slate-200 mb-3" />
@@ -82,6 +82,6 @@ export const AthleteList: React.FC<AthleteListProps> = ({ athletes, config }) =>
                     Vedi Tutti <ArrowRight size={20} />
                 </AnimatedLink>
             </div>
-        </div>
+        </section>
     );
 };

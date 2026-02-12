@@ -13,6 +13,7 @@ import { SponsorSection } from '@/components/SponsorSection';
 import { getThemeBySlug } from '@/utils/theme';
 import { FIXED_EVENTS } from '@/data/events';
 import MainEvents from '@/components/MainEvents';
+import { AthleteSection } from '@/components/AthleteSection';
 
 
 // Define valid clubs
@@ -121,14 +122,10 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
             */}
             <MainEvents />
             <div className="animate-fade-in-up">
-                {/* About Section - All Clubs Carousel */}
-                {/* Athletes Section - Only for active club */}
-                <div className="mt-12 md:mt-24">
-                    <AthleteList
-                        athletes={data.athletes}
-                        config={config}
-                    />
-                </div>
+                <AthleteSection
+                    athletes={data.athletes}
+                    config={config}
+                />
 
                 <BlogSection posts={data.blogPosts} config={config} />
                 <CompetitionsSection />

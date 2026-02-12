@@ -6,6 +6,7 @@ import { ClubType, Athlete } from '@/types';
 import { Navbar } from '@/components/Navbar';
 import { ArrowLeft, Users } from 'lucide-react';
 import { getThemeBySlug } from '@/utils/theme';
+import { AthleteSection } from '@/components/AthleteSection';
 
 const VALID_CLUBS = ['alba13', 'ros6team'];
 
@@ -61,41 +62,7 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
 
             <div className="container mx-auto px-6 pt-40 pb-12">
 
-                <div className="flex items-center gap-3 mb-12">
-                    <div className={`p-3 rounded-full bg-${theme.light} text-${theme.primary}`}>
-                        <Users size={32} />
-                    </div>
-                    <div>
-                        <h1 className="text-4xl font-bold">Il Team Completo</h1>
-                        <p className="opacity-60 mt-1">Tutti gli atleti divisi per categoria</p>
-                    </div>
-                </div>
-
-                <div className="space-y-16">
-                    {Object.entries(groupedAthletes).map(([category, categoryAthletes]: [string, Athlete[]]) => (
-                        <div key={category}>
-                            <h2 className={`text-2xl pl-4 font-bold mb-6 border-l-4 border-${theme.primary}`}>
-                                {category}
-                            </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {categoryAthletes.map((athlete) => (
-                                    <div key={athlete.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all h-[300px] relative group">
-                                        <img
-                                            src={athlete.imageUrl}
-                                            alt={athlete.name}
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90" />
-                                        <div className="absolute bottom-0 left-0 p-6 text-white">
-                                            <div className="text-xl font-bold leading-tight">{athlete.name}</div>
-                                            {athlete.role && <div className="text-sm opacity-80 mt-1">{athlete.role}</div>}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <AthleteSection athletes={athletes} config={config} />
 
                 {athletes.length === 0 && (
                     <div className="text-center py-20 opacity-50">
