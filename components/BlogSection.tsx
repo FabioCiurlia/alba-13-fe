@@ -23,12 +23,12 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts, config }) => {
   const cardHoverBorder = `group-hover:border-${theme.secondary}`;
 
   return (
-    <section className="py-12 bg-white overflow-hidden">
+    <section className="py-12 bg-white overflow-hidden px-4 md:px-6 selection:bg-cyan-100 selection:text-cyan-900 md:h-[60vh]">
       <div className="container mx-auto px-6">
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
           <div>
-            <span className={`text-xs font-bold tracking-[0.2em] uppercase ${subHeaderColor}`}>
+            <span className={`text-sm font-semibold tracking-[0.2em] uppercase ${subHeaderColor}`}>
               Il Nostro Percorso
             </span>
             <h2 className={`text-4xl font-bold mt-2 ${theme.text}`}>

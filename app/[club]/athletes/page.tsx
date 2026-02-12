@@ -44,7 +44,7 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
         <div className={`min-h-screen ${theme.bg}`}>
             <Navbar />
 
-            {/* Fixed Sub-Navbar */}
+            {/* Fixed Sub-Navbar 
             <div className={`fixed top-16 left-0 right-0 z-40 border-b backdrop-blur-md ${theme.bg}/90 border-slate-200`}>
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
                     <Link
@@ -59,10 +59,11 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
                     </div>
                 </div>
             </div>
+            */}
 
             <div className="container mx-auto px-6 pt-40 pb-12">
 
-                <AthleteSection athletes={athletes} config={config} />
+                <AthleteSection athletes={athletes} config={config} visible={false} />
 
                 {athletes.length === 0 && (
                     <div className="text-center py-20 opacity-50">

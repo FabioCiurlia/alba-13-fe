@@ -60,6 +60,8 @@ export interface BlogPost {
   enabled: boolean;
   link: string;
   overlayColor: string;
+  subscribeLink?: string;
+  description: string;
 }
 
 export interface Badge {

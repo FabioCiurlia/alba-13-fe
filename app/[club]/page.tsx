@@ -12,8 +12,8 @@ import { Navbar } from '@/components/Navbar';
 import { SponsorSection } from '@/components/SponsorSection';
 import { getThemeBySlug } from '@/utils/theme';
 import { FIXED_EVENTS } from '@/data/events';
-import MainEvents from '@/components/MainEvents';
 import { AthleteSection } from '@/components/AthleteSection';
+import MainEvents from '@/components/MainEvents';
 
 
 // Define valid clubs
@@ -73,7 +73,6 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
     return (
         <main className={`${theme.bg} pt-[64px]`}>
             {/*<section className={`hidden md:block relative py-0 md:pt-6 ${theme.bg}`}>
-                
                 <nav className={`container mx-auto md:px-6 flex items-start justify-between font-sans ${theme.bg}`}>
                     <div className="max-w-[150px]">
                         <h1 className={`text-2xl font-bold leading-tight tracking-tighter uppercase text-${theme.primary}`}>
@@ -120,12 +119,22 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
                 config={config}
             />
             */}
-            <MainEvents />
+
             <div className="animate-fade-in-up">
-                <AthleteSection
-                    athletes={data.athletes}
-                    config={config}
-                />
+                <MainEvents events={FIXED_EVENTS} theme={theme} />
+                <section className='relative w-full py-6 md:py-12 md:pb-32 overflow-hidden bg-gradient-to-b to-slate-300 from-slate-200'>
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="flex justify-between items-end mb-12 px-2 md:px-0 max-w-7xl mx-auto">
+                            <div>
+                                <p className="text-4xl font-black text-slate-900 italic tracking-tighter uppercase">Il <span className={`text-${theme.primary}`}>Team</span></p>
+                            </div>
+                            <div className="hidden md:block h-[2px] flex-grow mx-8 bg-white mb-3" />
+                        </div>
+
+                        <AthleteSection athletes={data.athletes} config={config} visible={true} />
+                    </div>
+
+                </section>
 
                 <BlogSection posts={data.blogPosts} config={config} />
                 <CompetitionsSection />

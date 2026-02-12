@@ -84,9 +84,15 @@ const EventCard = ({ event, isActive = false }: { event: Partial<BlogPost>, isAc
 };
 
 // --- Main Section with Horizontal Scroll ---
-export default function EventShowcase() {
-    const [activeIndex, setActiveIndex] = React.useState(0);
+export default function MainEvents({ events, theme }: { events: Partial<BlogPost>[], theme: any }) {
+    const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
     const scrollRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            setActiveIndex(0);
+        }
+    }, []);
 
     const handleScroll = () => {
         if (scrollRef.current) {
@@ -97,6 +103,7 @@ export default function EventShowcase() {
 
             // Calculate index precisely
             const index = Math.round(scrollLeft / (cardWidth + gap));
+            console.log(index);
             if (index !== activeIndex) {
                 setActiveIndex(index);
             }
@@ -104,13 +111,13 @@ export default function EventShowcase() {
     };
 
     return (
-        <section className="bg-gradient-to-b from-slate-50 to-slate-200 py-6 px-4 md:px-6 selection:bg-cyan-100 selection:text-cyan-900">
+        <section className="bg-gradient-to-b from-slate-50 to-slate-200 py-6 px-4 md:px-6 selection:bg-cyan-100 selection:text-cyan-900 md:h-[60vh]">
             <div className="max-w-7xl mx-auto">
 
                 {/* Section Header */}
                 <div className="flex justify-between items-end mb-6 px-2 md:px-0">
                     <div>
-                        <p className="text-4xl font-black text-slate-900 italic tracking-tighter uppercase">Prossimi <span className="text-cyan-600">appuntamenti</span></p>
+                        <p className="text-4xl font-black text-slate-900 italic tracking-tighter uppercase">I Nostri <span className="text-cyan-600">eventi</span></p>
                     </div>
                     <div className="hidden md:block h-[2px] flex-grow mx-8 bg-slate-200 mb-3" />
                 </div>

@@ -12,19 +12,22 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         date: '2026-02-22',
         author: 'Staff',
         bullet: {
-            levelOne: ['🏆 Campionato Interregionale Trail', '🏆 Campionato Puglia Trail', '🏆 Running in Salento', '⛰️ 17.5 KM + D350'],
-            levelTwo: ['🚶 Camminata 5 KM'],
-            gadget: ['👕 T-Shirt Gara', '🏅 Medaglia']
+            levelOne: ['🏆 1^ Prova Circuito Interregionale Trail Fidal Sud 2026', '🏆 1^ Tappa del Circuito Puglia Trail', '🏆 2^ Prova Running in Salento Trail, Cross & Mountain Running 2026', '⛰️ 17.5 KM + D350'],
+            levelTwo: ['⛰️ Trail', '🚶 Camminata 5 KM'],
+            gadget: ['👕 T-Shirt Gara', '🏅 Medaglia', 'Ristoro']
         },
         badges: [{
             image: 'https://www.pugliatrail.it/wp-content/uploads/2023/01/Senza-titolo-1-1.svg',
             description: 'Puglia Trail'
-        }],
+        },
+        ],
         place: 'Taurisano',
         distanza: '17.5 KM',
         enabled: true,
-        link: 'https://www.pugliatrail.it/trail-del-crocefisso/',
-        overlayColor: 'bg-cyan-900/40'
+        link: `/alba13/events/trail-del-crocefisso`,
+        overlayColor: 'bg-cyan-900/40',
+        subscribeLink: 'https://www.icron.it/newgo/#/evento/20264663',
+        description: "Il Trail del Crocefisso è arrivato alla sua 8* edizione ed quest'anno ha il compito di aprire la nuova stagione del trail in Puglia."
     },
     {
         id: 'eco-race-spartan-kids',
@@ -42,7 +45,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         place: 'Gallipoli',
         type: 'Spartan',
         enabled: false,
-        link: 'https://www.pugliatrail.it/eco-race-spartan-kids/',
+        link: '/alba13/events/eco-race-spartan-kids',
         overlayColor: 'bg-emerald-900/40'
     },
     {
@@ -50,7 +53,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         title: 'Vertical Sprint',
         category: 'Event',
         imageUrl: 'https://res.cloudinary.com/drxidw3hj/image/upload/t_qwebp/v1770675682/Vertical_Sprint_gara_hjpuzb.webp',
-        slug: { current: 'spartan-kids-5k' },
+        slug: { current: 'vertical-sprint' },
         date: '2026-07-10',
         author: 'Staff',
         bullet: {
@@ -61,7 +64,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         place: 'Gallipoli',
         type: 'Vertical',
         enabled: false,
-        link: 'https://www.pugliatrail.it/vertical-sprint/',
+        link: '/alba13/events/vertical-sprint',
         overlayColor: 'bg-blue-900/40'
     },
     {
@@ -69,7 +72,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         title: 'StraTaurisano',
         category: 'Event',
         imageUrl: 'https://res.cloudinary.com/drxidw3hj/image/upload/v1770674214/h2-img-4_ncelsk.jpg',
-        slug: { current: 'spartan-kids-5k' },
+        slug: { current: 'stra-taurisano' },
         date: '2026-11-02',
         author: 'Staff',
         bullet: {
@@ -80,7 +83,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         place: 'Taurisano',
         type: 'Running',
         enabled: false,
-        link: 'https://www.pugliatrail.it/stra-taurisano/',
+        link: '/alba13/events/stra-taurisano',
         overlayColor: 'bg-amber-900/40'
     }
 ];
