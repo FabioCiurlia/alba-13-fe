@@ -32,7 +32,7 @@ export default async function EventDetailPage({
 
             {/* Immersive Hero Section */}
             <section className="container mx-auto mb-20 pt-[64px]">
-                <div className="relative h-[40vh] md:h-[35vh] overflow-hidden group">
+                <div className="relative h-[40vh] md:h-[50vh] overflow-hidden group">
                     <img
                         src={event.imageUrl}
                         alt={event.title}
@@ -40,37 +40,34 @@ export default async function EventDetailPage({
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
 
-                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16">
-                        <div className="max-w-4xl space-y-6">
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-16">
+                        <div className="max-w-4xl space-y-4">
                             <div className="flex flex-wrap gap-4">
-                                <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-[0.2em]">
-                                    {event.type}
-                                </span>
                                 {event.distanza && (
-                                    <span className="px-4 py-1.5 rounded-full bg-cyan-600/50 backdrop-blur-md border border-cyan-400/30 text-white text-xs font-black uppercase tracking-[0.2em]">
+                                    <span className="px-4 py-1.5 rounded-full bg-cyan-600/50 backdrop-blur-md border border-cyan-400/30 text-white text-[10px] font-black uppercase tracking-[0.2em]">
                                         {event.distanza}
                                     </span>
                                 )}
                             </div>
 
-                            <h1 className="text-5xl md:text-8xl font-black text-white italic leading-[1.1] uppercase tracking-tighter">
+                            <h1 className="text-4xl md:text-8xl font-black text-white italic leading-[1.1] uppercase tracking-tighter">
                                 {event.title}
                             </h1>
 
                             <div className="flex flex-wrap items-center gap-x-12 gap-y-4 pt-4">
-                                <div className="flex items-center gap-3 text-white/80">
+                                <div className="flex items-center gap-3 text-white">
                                     <Calendar className="text-cyan-400" size={24} />
                                     <div>
-                                        <p className="text-[10px] uppercase tracking-widest font-bold opacity-60">Data</p>
+                                        <p className="text-[10px] uppercase tracking-widest font-bold">Data</p>
                                         <p className="text-lg font-black uppercase">
                                             {event.date ? new Date(event.date).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Da definire'}
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 text-white/80">
+                                <div className="flex items-center gap-3 text-white">
                                     <MapPin className="text-cyan-400" size={24} />
                                     <div>
-                                        <p className="text-[10px] uppercase tracking-widest font-bold opacity-60">Location</p>
+                                        <p className="text-[10px] uppercase tracking-widest font-bold">Luogo</p>
                                         <p className="text-lg font-black uppercase">{event.place}</p>
                                     </div>
                                 </div>

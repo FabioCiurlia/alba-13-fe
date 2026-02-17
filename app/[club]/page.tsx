@@ -14,6 +14,7 @@ import { getThemeBySlug } from '@/utils/theme';
 import { FIXED_EVENTS } from '@/data/events';
 import { AthleteSection } from '@/components/AthleteSection';
 import MainEvents from '@/components/MainEvents';
+import backdrop from '@/utils/backdrop.svg';
 
 
 // Define valid clubs
@@ -123,6 +124,9 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
             <div className="animate-fade-in-up">
                 <MainEvents events={FIXED_EVENTS} theme={theme} />
                 <section className='relative w-full py-6 md:py-12 md:pb-32 overflow-hidden bg-gradient-to-b to-slate-300 from-slate-200'>
+                    <div className='absolute top-0 left-0 w-full h-full grayscale opacity-10 pointer-events-none'>
+                        <img src={backdrop.src} alt="Team" className='w-full h-full object-cover' />
+                    </div>
                     <div className="container mx-auto px-6 relative z-10">
                         <div className="flex justify-between items-end mb-12 px-2 md:px-0 max-w-7xl mx-auto">
                             <div>
@@ -130,10 +134,21 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
                             </div>
                             <div className="hidden md:block h-[2px] flex-grow mx-8 bg-white mb-3" />
                         </div>
-
                         <AthleteSection athletes={data.athletes} config={config} visible={true} />
                     </div>
-
+                </section>
+                <section className='h-[40vh] w-full relative'>
+                    <div className='absolute top-32 right-32 h-full'>
+                        <a
+                            href="https://www.strava.com/clubs/1688974/members"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all hover:-translate-y-1 shadow-md hover:shadow-lg bg-[#FC4C02] hover:bg-[#E34402]"
+                        >
+                            Trovaci su Strava
+                        </a>
+                    </div>
+                    <img src='https://res.cloudinary.com/drxidw3hj/image/upload/t_qwebp/v1771194072/2147618089_a5vh5u.webp' className='w-full h-full object-cover object-bottom' />
                 </section>
 
                 <BlogSection posts={data.blogPosts} config={config} />

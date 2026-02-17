@@ -12,7 +12,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         date: '2026-02-22',
         author: 'Staff',
         bullet: {
-            levelOne: ['🏆 1^ Prova Circuito Interregionale Trail Fidal Sud 2026', '🏆 1^ Tappa del Circuito Puglia Trail', '🏆 2^ Prova Running in Salento Trail, Cross & Mountain Running 2026', '⛰️ 17.5 KM + D350'],
+            levelOne: ['🏆 1^ Prova Circuito Interregionale Trail Fidal Sud 2026', '🏆 1^ Tappa del Circuito Puglia Trail', '🏆 2^ Prova Running in Salento Trail, Cross & Mountain Running 2026'],
             levelTwo: ['⛰️ Trail', '🚶 Camminata 5 KM'],
             gadget: ['👕 T-Shirt Gara', '🏅 Medaglia', 'Ristoro']
         },
@@ -24,6 +24,7 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         place: 'Taurisano',
         distanza: '17.5 KM',
         enabled: true,
+        open: true,
         link: `/alba13/events/trail-del-crocefisso`,
         overlayColor: 'bg-cyan-900/40',
         subscribeLink: 'https://www.icron.it/newgo/#/evento/20264663',
@@ -44,7 +45,8 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         },
         place: 'Gallipoli',
         type: 'Spartan',
-        enabled: false,
+        enabled: true,
+        open: false,
         link: '/alba13/events/eco-race-spartan-kids',
         overlayColor: 'bg-emerald-900/40'
     },
@@ -63,7 +65,8 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         },
         place: 'Gallipoli',
         type: 'Vertical',
-        enabled: false,
+        enabled: true,
+        open: false,
         link: '/alba13/events/vertical-sprint',
         overlayColor: 'bg-blue-900/40'
     },
@@ -82,7 +85,8 @@ export const FIXED_EVENTS: Partial<BlogPost>[] = [
         },
         place: 'Taurisano',
         type: 'Running',
-        enabled: false,
+        enabled: true,
+        open: false,
         link: '/alba13/events/stra-taurisano',
         overlayColor: 'bg-amber-900/40'
     }

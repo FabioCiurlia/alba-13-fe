@@ -26,11 +26,6 @@ export const SponsorSection: React.FC = () => {
                             />
                         </div>
                     </div>
-
-                    <div className="flex items-center justify-center p-8 transition-colors">
-                        <span className={`text-slate-500 font-bold text-2xl md:text-xl uppercase tracking-widest italic leading-tight text-center`}>
-                            Vuoi diventare nostro partner? Contattaci</span>
-                    </div>
                 </div>
             </div>
         </div>

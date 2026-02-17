@@ -9,17 +9,17 @@ import { AnimatedLink } from './AnimatedLink';
 const EventCard = ({ event, isActive = false }: { event: Partial<BlogPost>, isActive?: boolean }) => {
     return (
         <AnimatedLink to={event.link}>
-            <div className={`group relative flex-shrink-0 w-[85vw] md:w-full h-[70vh] md:h-[500px] snap-center overflow-hidden rounded-[2rem] bg-slate-900 transition-all duration-500 ${isActive ? 'ring-2 ring-cyan-500 md:ring-0' : ''}`}>
+            <div className={`group relative flex-shrink-0 w-[85vw] lg:w-full h-[60vh] lg:h-[500px] snap-center overflow-hidden rounded-[2rem] bg-slate-900 transition-all duration-500 ${isActive ? 'ring-2 ring-cyan-500 md:ring-0' : ''}`}>
 
                 {/* Background Image with requested Grayscale filter */}
                 <div className="absolute inset-0">
                     <img
                         src={event.imageUrl}
                         alt={event.title}
-                        className={`h-full w-full object-cover transition-all duration-700 ${isActive ? 'grayscale-0 md:grayscale-[20%] md:group-hover:grayscale-0 scale-105 md:scale-100 md:group-hover:scale-105' : 'grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105'}`}
+                        className={`h-full w-full object-cover transition-all duration-700 ${isActive ? 'grayscale-0 lg:grayscale-[20%] md:group-hover:grayscale-0 scale-105 lg:scale-100  lg:group-hover:scale-105' : 'grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105'}`}
                     />
                     {/* Gradient Overlay: Using your 'cardOverlay' cyan-900/80 */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent " />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 group-hover:from-slate-900/20 group-hover:via-slate-900/20 " />
                     <div className={`absolute inset-0 bg-cyan-900/40 transition-opacity duration-500 ${isActive ? 'opacity-100 md:opacity-0 md:group-hover:opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
                 </div>
 
@@ -36,21 +36,21 @@ const EventCard = ({ event, isActive = false }: { event: Partial<BlogPost>, isAc
                     <div className="space-y-3">
                         {/* Title & Date */}
                         <div className="space-y-2">
-                            <div className='flex flex-col gap-2'>
-                                <span className={`text-sm tracking-widest uppercase transition-colors ${isActive ? 'text-white md:text-white/70 md:group-hover:text-white' : 'text-white/70 group-hover:text-white'}`}>
+                            <div className='flex flex-col gap-1'>
+                                <span className={`text-sm md:text-md tracking-widest uppercase transition-colors ${isActive ? 'text-white md:text-white/70 md:group-hover:text-white' : 'text-white/70 group-hover:text-white'}`}>
                                     {event.place}
                                 </span>
-                                <span className={`text-sm tracking-widest uppercase transition-colors ${isActive ? 'text-white md:text-white/70 md:group-hover:text-white' : 'text-white/70 group-hover:text-white'}`}>
+                                <span className={`text-sm md:text-md lg:text-lg tracking-widest uppercase transition-colors ${isActive ? 'text-white md:text-white/70 md:group-hover:text-white' : 'text-white/70 group-hover:text-white'}`}>
                                     {event.date ? new Date(event.date).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Data da definire'}
                                 </span>
                             </div>
-                            <h3 className="text-3xl md:text-2xl font-black text-white leading-tight uppercase">
+                            <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-white leading-tight uppercase">
                                 {event.title}
                             </h3>
                         </div>
 
                         {/* Simple Stats Row - Smooth Reveal */}
-                        <div className={`grid transition-all duration-500 ease-in-out ${isActive ? 'grid-rows-[1fr] opacity-100 pb-20' : 'grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100'}`}>
+                        <div className={`grid transition-all duration-500 ease-in-out ${isActive ? 'grid-rows-[1fr] opacity-100 pb-15' : 'grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100'}`}>
                             <div className="overflow-hidden">
                                 <div className="flex flex-col gap-2">
                                     {event.bullet?.levelOne && event.bullet.levelOne.length > 0 && event.bullet.levelOne.map((bullet, index) => (
@@ -63,19 +63,19 @@ const EventCard = ({ event, isActive = false }: { event: Partial<BlogPost>, isAc
                         </div>
 
                         {/* Clean CTA */}
-                        {event.enabled &&
+                        {event.open &&
                             <div className="flex flex-col justify-start">
 
-                                <button className={`flex items-center gap-2 transition-all duration-500 font-bold ${isActive ? 'text-cyan-400 text-lg md:text-white md:text-base md:group-hover:text-cyan-400 md:group-hover:text-lg' : 'text-white group-hover:text-cyan-400 group-hover:text-lg'}`}>
+                                <button className={`flex items-center gap-2 transition-all duration-100 font-bold ${isActive ? 'text-cyan-400 text-lg md:text-white md:text-base md:group-hover:text-cyan-400 md:group-hover:text-lg' : 'text-white group-hover:text-cyan-400 group-hover:text-lg'}`}>
                                     ISCRIVITI ORA
                                     <ChevronRight size={24} className={`transition-transform ${isActive ? 'translate-x-1 md:translate-x-0 md:group-hover:translate-x-1' : 'group-hover:translate-x-1'}`} />
                                 </button>
-                                <span className="text-sm font-bold text-white/70 group-hover:text-green-400 transition-all duration-500">Iscrizioni Aperte</span>
+                                <span className="text-md font-bold text-white/70 group-hover:text-green-400 transition-all duration-100">Iscrizioni Aperte</span>
                             </div>}
-                        {!event.enabled && <div className="flex flex-col justify-start"><button className={`flex items-center gap-2 transition-all duration-500 font-bold ${isActive ? 'text-cyan-400 text-lg md:text-white md:text-base md:group-hover:text-cyan-400 md:group-hover:text-lg' : 'text-white group-hover:text-cyan-400 group-hover:text-lg'}`}>
+                        {!event.open && <div className="flex flex-col justify-start"><button className={`flex items-center gap-2 transition-all duration-500 font-bold ${isActive ? 'text-cyan-400 text-lg md:text-white md:text-base md:group-hover:text-cyan-400 md:group-hover:text-lg' : 'text-white group-hover:text-cyan-400 group-hover:text-lg'}`}>
                             SCOPRI L'EVENTO
                             <ChevronRight size={24} className={`transition-transform ${isActive ? 'translate-x-1 md:translate-x-0 md:group-hover:translate-x-1' : 'group-hover:translate-x-1'}`} />
-                        </button><span className="text-sm font-bold text-white/70 group-hover:text-red-400 transition-all duration-500">Iscrizioni Chiuse</span></div>}
+                        </button><span className="text-md font-bold text-white/70 group-hover:text-red-400 transition-all duration-500">Iscrizioni Chiuse</span></div>}
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@ export default function MainEvents({ events, theme }: { events: Partial<BlogPost
     };
 
     return (
-        <section className="bg-gradient-to-b from-slate-50 to-slate-200 py-6 px-4 md:px-6 selection:bg-cyan-100 selection:text-cyan-900 md:h-[60vh]">
+        <section className="bg-gradient-to-b from-slate-50 to-slate-200 py-6 px-4 md:px-6 selection:bg-cyan-100 selection:text-cyan-900 md:h-[75vh]">
             <div className="max-w-7xl mx-auto">
 
                 {/* Section Header */}
@@ -131,7 +131,7 @@ export default function MainEvents({ events, theme }: { events: Partial<BlogPost
                     onScroll={handleScroll}
                     className="
           flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 no-scrollbar
-          md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible md:pb-0
+          lg:grid lg:grid-cols-4 lg:overflow-visible md:pb-0
         ">
                     {FIXED_EVENTS.map((event, idx) => (
                         <EventCard key={event.id} event={event} isActive={activeIndex === idx} />
@@ -139,7 +139,7 @@ export default function MainEvents({ events, theme }: { events: Partial<BlogPost
                 </div>
 
                 {/* Pagination Dots - Mobile Only (Optional, added for feedback) */}
-                <div className="flex justify-center gap-2 mt-2 md:hidden">
+                <div className="flex justify-center gap-2 mt-2 lg:hidden">
                     {FIXED_EVENTS.map((_, idx) => (
                         <div
                             key={idx}

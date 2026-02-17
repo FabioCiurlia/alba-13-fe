@@ -2,6 +2,7 @@ export const themes = {
     alba13: {
         primary: 'cyan-600',
         secondary: 'cyan-400',
+        darker: 'cyan-900',
         light: 'cyan-100',
         lighter: 'cyan-50',
         bg: 'bg-slate-50',
@@ -21,8 +22,8 @@ export const themes = {
             drawerBg: 'bg-slate-900'
         },
         footer: {
-            bg: 'bg-slate-900',
-            text: 'text-slate-400',
+            bg: 'bg-cyan-300/80',
+            text: 'text-slate-900/90',
             border: 'border-white/10'
         }
     },

@@ -61,7 +61,15 @@ export default async function AthletesPage({ params }: { params: Promise<{ club:
             </div>
             */}
 
-            <div className="container mx-auto px-6 pt-40 pb-12">
+            <div className="container mx-auto px-6 pt-[60px] pb-12">
+
+                <div className="flex py-8 items-center justify-center align-center px-2 md:px-0">
+                    <div className="hidden md:block h-[2px] flex-grow mx-8 bg-slate-200" />
+                    <div>
+                        <p className="text-3xl md:text-4xl font-black text-slate-900 italic tracking-tighter uppercase text-center">La Nostra <span className="text-cyan-600">Squadra</span></p>
+                    </div>
+                    <div className="hidden md:block h-[2px] flex-grow mx-8 bg-slate-200" />
+                </div>
 
                 <AthleteSection athletes={athletes} config={config} visible={false} />
 

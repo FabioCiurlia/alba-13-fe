@@ -58,6 +58,7 @@ export interface BlogPost {
   };
   place: string;
   enabled: boolean;
+  open: boolean;
   link: string;
   overlayColor: string;
   subscribeLink?: string;

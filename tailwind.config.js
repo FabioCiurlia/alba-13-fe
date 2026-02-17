@@ -12,5 +12,11 @@ module.exports = {
             },
         },
     },
+    safelist: [
+        {
+            pattern: /(bg|text|border)-(cyan|yellow|slate)-(50|100|300|400|600|900)/,
+            variants: ['hover', 'group-hover'],
+        },
+    ],
     plugins: [],
 }
