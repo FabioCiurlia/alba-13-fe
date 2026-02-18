@@ -2,7 +2,6 @@
 
 import { useParams } from 'next/navigation';
 import { getThemeBySlug } from '../utils/theme';
-import { AnimatedLink } from './AnimatedLink';
 import logo from '@/utils/logo-alba13.svg';
 import logoRos from '@/utils/logo-ros6.svg';
 import logoSpartanKids from '@/utils/logo-spartan-kids.svg';

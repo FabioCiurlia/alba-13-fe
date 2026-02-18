@@ -34,7 +34,7 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <nav className={`
-        fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b
+        fixed top-0 left-0 right-0 z-50 px-8 transition-all duration-300 border-b
         ${config.navbar.bg} ${config.navbar.border} ${config.navbar.text}
         `}>
         <div className="container max-w-7xl mx-auto h-16 flex items-center justify-between relative">
@@ -114,13 +114,6 @@ export const Navbar: React.FC = () => {
             onClick={() => setIsOpen(false)}
           >
             Home
-          </AnimatedLink>
-          <AnimatedLink
-            to={`${clubPrefix}/training`}
-            className={`transition-colors ${itemHover}`}
-            onClick={() => setIsOpen(false)}
-          >
-            Allenamenti
           </AnimatedLink>
           <AnimatedLink
             to={`${clubPrefix}/athletes`}

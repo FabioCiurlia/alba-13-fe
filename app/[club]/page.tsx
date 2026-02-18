@@ -1,20 +1,15 @@
-import React from 'react';
 import { notFound } from 'next/navigation';
 import { getClubContent } from '@/services/sanityService';
 import { ClubType, ClubContext } from '@/types';
-import { Hero } from '@/components/Hero';
-import { AboutSection } from '@/components/AboutSection';
-import { AthleteList } from '@/components/AthleteList';
 import { BlogSection } from '@/components/BlogSection';
 import { CompetitionsSection } from '@/components/CompetitionsSection';
-import { AlertCircle, RefreshCw } from 'lucide-react';
-import { Navbar } from '@/components/Navbar';
 import { SponsorSection } from '@/components/SponsorSection';
 import { getThemeBySlug } from '@/utils/theme';
 import { FIXED_EVENTS } from '@/data/events';
 import { AthleteSection } from '@/components/AthleteSection';
 import MainEvents from '@/components/MainEvents';
 import backdrop from '@/utils/backdrop.svg';
+import logo from '@/utils/logo-alba13.svg';
 
 
 // Define valid clubs
@@ -137,18 +132,42 @@ export default async function ClubPage({ params }: { params: Promise<{ club: str
                         <AthleteSection athletes={data.athletes} config={config} visible={true} />
                     </div>
                 </section>
-                <section className='h-[40vh] w-full relative'>
-                    <div className='absolute top-32 right-32 h-full'>
-                        <a
-                            href="https://www.strava.com/clubs/1688974/members"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all hover:-translate-y-1 shadow-md hover:shadow-lg bg-[#FC4C02] hover:bg-[#E34402]"
-                        >
-                            Trovaci su Strava
-                        </a>
+                <section className='h-[40vh] w-full relative bg-slate-900 overflow-hidden'>
+                    {/* Background Image & Overlay */}
+                    <div className="absolute inset-0 z-0">
+                        <img
+                            src='https://res.cloudinary.com/drxidw3hj/image/upload/t_qwebp/v1771194072/2147618089_a5vh5u.webp'
+                            className='w-full h-full object-cover object-bottom'
+                            alt="Strava Background"
+                        />
+                        <div className="absolute inset-0 bg-slate-900/50" />
                     </div>
-                    <img src='https://res.cloudinary.com/drxidw3hj/image/upload/t_qwebp/v1771194072/2147618089_a5vh5u.webp' className='w-full h-full object-cover object-bottom' />
+
+                    {/* Content */}
+                    <div className='absolute top-16 right-0 md:top-auto md:bottom-32 md:right-32 md:left-32 space-y-5 text-center z-10 w-full md:w-auto'>
+                        <div className='flex flex-col items-center justify-center gap-5 mx-auto'>
+                            <img src={logo.src} alt="Logo" className='hidden md:block w-32 h-32 mx-auto' />
+
+                            <div className='flex flex-col items-center justify-center gap-4'>
+                                <h3 className='text-white text-3xl md:text-5xl text-2xl font-bold w-[90%] md:w-[60%] uppercase drop-shadow-md font-gopron'>
+                                    Prova a starci dietro su STRAVA!
+                                </h3>
+
+                                <a
+                                    href="https://www.strava.com/clubs/1688974/members"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl  text-white transition-all hover:-translate-y-1 shadow-md hover:shadow-lg bg-[#FC4C02] hover:bg-[#E34402]"
+                                >
+                                    Trovaci su Strava
+                                </a>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
                 </section>
 
                 <BlogSection posts={data.blogPosts} config={config} />

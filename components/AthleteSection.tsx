@@ -21,7 +21,7 @@ const AthleteCard = ({ athlete, visible }: { athlete: Athlete, visible: boolean 
                 <img
                     src={athlete.imageUrl || defaultImage.src}
                     alt={athlete.name}
-                    className={`h-full w-full object-cover transition-all duration-700 ${visible ? 'grayscale group-hover:grayscale-0 group-hover:scale-110' : ''} `}
+                    className={`h-full w-full object-cover transition-all duration-700 ${visible ? 'md:grayscale md:group-hover:grayscale-0 md:group-hover:scale-110' : ''} `}
                 />
                 {/* Subtle Overlay on Hover */}
                 <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500" />
